@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://stickdriftcheck.com/sitemap.xml

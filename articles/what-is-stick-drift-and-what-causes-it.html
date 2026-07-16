@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Is Stick Drift and What Causes It? — stickdriftcheck.com</title>
+<meta name="description" content="Stick drift explained: how analog thumbsticks work, why potentiometer wear, dust, and worn springs cause phantom controller input, and which controllers drift most.">
+<link rel="canonical" href="https://stickdriftcheck.com/articles/what-is-stick-drift-and-what-causes-it.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+  </div>
+</header>
+<main class="container-narrow">
+  <h1>What Is Stick Drift and What Causes It?</h1>
+
+  <p>Stick drift is when a game controller registers movement on an analog stick that you didn't make — your character keeps walking, the camera slowly pans, or a menu cursor creeps to one side while your thumb is nowhere near the stick. It's one of the most common ways a controller fails, and because it develops gradually, most people don't notice until it's already affecting their aim. If you suspect it, the fastest way to confirm is to <a href="/">run a stick drift test</a> and watch whether the resting position sits off-center. But to understand why it happens, you have to look at what's actually inside the stick.</p>
+
+  <h2>How an analog stick works</h2>
+  <p>The thumbstick you push around sits on top of a gimbal — a two-axis pivot that translates your movement into two separate measurements, one for horizontal (X) and one for vertical (Y). In the overwhelming majority of controllers sold over the last two decades, each axis is read by a <strong>potentiometer</strong>: a small component with a resistive track and a wiper that slides along it. As the stick tilts, the wiper moves across the track, changing the resistance and therefore the voltage the controller reads. The console or PC converts that voltage into a number, conventionally scaled from −1 to +1 on each axis, with 0 meaning "centered."</p>
+  <p>When everything is healthy, releasing the stick lets internal springs snap it back to center, the wiper returns to the middle of the track, and both axes read very close to zero. Drift is what happens when "very close to zero" stops being true — when the resting voltage no longer corresponds to the physical center.</p>
+
+  <h2>The main causes of drift</h2>
+  <p><strong>Potentiometer wear.</strong> This is the big one. Every time the wiper slides across the resistive track, it abrades it microscopically. After tens of thousands of movements — which competitive players rack up in weeks — the track develops worn spots and the contact becomes inconsistent. The controller then reads a small nonzero voltage at rest, and that phantom value is drift. Because the wear is mechanical and cumulative, drift almost always gets worse over time rather than better.</p>
+  <p><strong>Dust and debris.</strong> The gap around the stick is an open invitation for dust, skin oil, food crumbs, and pet hair. When contaminants settle onto the resistive track or into the wiper contact, they change the resistance in exactly the same way wear does, producing false readings. This is the one cause that cleaning can sometimes reverse, which is why compressed air and isopropyl alcohol are the first thing people try.</p>
+  <p><strong>Worn or weak return springs.</strong> The centering springs lose tension with use. If the stick no longer returns fully and firmly to center, the wiper stops just short of the middle every time, and the controller faithfully reports that small offset as input. This can look like drift even when the potentiometer itself is fine.</p>
+  <p><strong>Calibration and firmware.</strong> Sometimes the hardware is healthy but the stored "center" reference has drifted in software, or the deadzone the system applies is too small to hide normal slop. This is the most fixable category, and it's why recalibration is worth trying before you open anything up. Our guide on <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix controller stick drift</a> covers recalibration for each platform.</p>
+  <p><strong>Manufacturing tolerance and damage.</strong> A drop, a spilled drink, or simply a stick module that was marginal from the factory can all shorten the time to noticeable drift.</p>
+
+  <h2>Why some controllers drift sooner than others</h2>
+  <p>Nearly all mainstream controllers — the Xbox Wireless Controller, the DualSense, the DualShock 4, and the Switch Joy-Con and Pro Controller — use the same family of resistive potentiometer sticks, most of them sourced from the same handful of suppliers. That shared design is why drift is an industry-wide phenomenon rather than one brand's defect. The Joy-Con became the poster child for drift largely because of its tiny stick module, high usage, and the sheer number of units sold, but no resistive stick is immune.</p>
+  <p>The emerging alternative is the <strong>Hall effect</strong> (and the related TMR) stick, which measures the position of a magnet with a sensor instead of dragging a wiper across a track. With no physical contact on the sensing element, there's nothing to wear out, so these sticks are far more resistant to the wear-based drift described above. A growing number of third-party controllers now ship with them, and they're a popular upgrade for people who repair their own hardware.</p>
+
+  <h2>How to tell it's really drift</h2>
+  <p>Not every stray movement is drift. A stick that reads a small nonzero value only when you've just let go — then settles — might just be springs relaxing. Real drift is persistent: the resting value stays offset, and it's often large enough to push past the game's deadzone. The reliable way to separate the two is to measure. Let go of the sticks completely and watch the numeric X/Y readout: a healthy stick hovers within a few thousandths of zero, while a drifting one parks at a clearly nonzero offset that doesn't return. Our <a href="/articles/how-to-test-your-controller-for-drift.html">testing guide</a> walks through doing this properly, and <a href="/articles/controller-deadzones-explained.html">controller deadzones explained</a> covers why a well-set deadzone can mask minor drift entirely.</p>
+
+  <h2>The takeaway</h2>
+  <p>Stick drift is a mechanical wear problem dressed up as a software glitch. The wiper-and-track design that made analog sticks cheap and precise is also the thing that eventually wears down, and dust, tired springs, and stale calibration all add to the effect. The good news is that a fair share of drift cases come from causes you can address at home, and even the worst cases are usually a stick-module replacement rather than a whole new controller. Start by confirming the problem: <a href="/">test your controller for drift</a> right now in your browser, then decide what to do about it.</p>
+
+  <h2>Keep reading</h2>
+  <ul>
+    <li><a href="/articles/how-to-fix-controller-stick-drift.html">How to fix controller stick drift (Xbox, PS5, Switch Pro)</a></li>
+    <li><a href="/articles/how-to-test-your-controller-for-drift.html">How to test your controller for drift</a></li>
+    <li><a href="/articles/controller-deadzones-explained.html">Controller deadzones explained</a></li>
+    <li><a href="/">Run the stick drift test</a></li>
+  </ul>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

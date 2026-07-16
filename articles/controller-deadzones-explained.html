@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controller Deadzones Explained — stickdriftcheck.com</title>
+<meta name="description" content="What a controller deadzone is, why games use them, the difference between inner and outer and radial deadzones, how they hide stick drift, and how to set one that feels right.">
+<link rel="canonical" href="https://stickdriftcheck.com/articles/controller-deadzones-explained.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+  </div>
+</header>
+<main class="container-narrow">
+  <h1>Controller Deadzones Explained</h1>
+
+  <p>A deadzone is a small region around the center of an analog stick where input is deliberately ignored — treated as zero even though the stick is reporting a slightly nonzero value. It sounds like a flaw, but it's one of the most important pieces of good controller feel, and it's directly tied to stick drift. Understanding deadzones tells you why a drifting stick can still feel fine in one game and unplayable in another, and how to tune the trade-off. If you want to see one in action, the <a href="/">stick drift test</a> draws an adjustable deadzone ring around each stick's live position.</p>
+
+  <h2>Why deadzones exist</h2>
+  <p>No analog stick rests at a perfect zero. Even a brand-new controller reports tiny fluctuating values at rest — electrical noise, mechanical slop, and the limits of the potentiometer all contribute. Without a deadzone, that jitter would leak into the game: your camera would wander, your character would creep, and a "resting" stick would never truly be still. The deadzone solves this by declaring a small radius around center off-limits. Any stick position inside that radius is clamped to zero, so small noise — and small drift — produces no movement at all. It's the reason your character stands still when you let go, despite the hardware never reading exactly 0.000.</p>
+
+  <h2>Inner, outer, and the shape of the zone</h2>
+  <p>Most people mean the <strong>inner deadzone</strong> when they say "deadzone" — the central region that's ignored. There's also an <strong>outer deadzone</strong>, near the edge of the stick's travel, where values are snapped to full deflection so you can reliably hit 100% without the stick physically reaching a perfect corner. Both exist because real hardware doesn't produce clean 0-to-1 ranges.</p>
+  <p>Shape matters too. A crude <strong>axial</strong> deadzone treats X and Y independently, which creates an awkward plus-shaped dead region and lets diagonal movement slip through when you don't want it. A better <strong>radial</strong> deadzone measures the straight-line distance from center — the magnitude — and ignores everything inside a circle. That circular zone is what the drift test visualizes, and it's why the magnitude number is the one that really tells you whether resting drift will break through.</p>
+
+  <h2>How deadzones hide drift</h2>
+  <p>Here's the crucial connection: a deadzone will completely mask any drift smaller than its radius. If your stick rests at a magnitude of 0.06 and the game applies a 0.10 deadzone, the game sees zero and you'll never notice — the drift is real but harmless in that title. Bump the drift to 0.14, or play a game with a tight 0.05 deadzone, and the same hardware now pushes past the threshold and your character walks on its own. This is why the same controller can feel perfect in a shooter with generous deadzones and drift badly in a game with a small one, and why testing raw values in the browser — before any deadzone is applied — reveals problems a game would have hidden. Our <a href="/articles/how-to-test-your-controller-for-drift.html">testing guide</a> leans on exactly this.</p>
+  <p>The temptation, once you have drift, is to crank the deadzone until the drift disappears. That works, but it isn't free: a larger deadzone means more of your genuine small movements are thrown away, so fine aim and slow, precise adjustments get worse. You're trading precision to paper over a hardware problem. It's a reasonable stopgap, but it's why <a href="/articles/how-to-fix-controller-stick-drift.html">actually fixing the drift</a> beats hiding it once the offset gets large.</p>
+
+  <h2>Setting a deadzone that feels right</h2>
+  <p>If a game lets you adjust the deadzone, the method is simple: lower it until your resting stick just barely stops causing any movement, then leave a small margin. Too low and idle jitter or minor drift leaks through; too high and precise aiming feels numb and disconnected near center. The sweet spot is the smallest deadzone that keeps a released stick perfectly still. Because every controller's resting behavior is a little different — and changes as it wears — the ideal value is personal to your hardware and worth revisiting if you feel your aim drifting. Measuring your stick's actual resting magnitude first, with the browser tester, takes the guesswork out: set the deadzone just above your measured offset.</p>
+
+  <h2>Deadzones and aim training</h2>
+  <p>If you're tuning deadzones to sharpen your aim, it's worth pairing the hardware side with the skill side. A stick that centers cleanly and a deadzone set just high enough to stay quiet gives you the most consistent input to practice on, and from there, dedicated aim practice does the rest. Browser aim trainers like <a href="https://flicktrainer.com" target="_blank" rel="noopener">Flick Trainer</a> let you drill flicks and tracking, and if you want to rule out other hardware variables while you're at it, a general device checkup at <a href="https://hardwarecheckup.com" target="_blank" rel="noopener">Hardware Checkup</a> can confirm the rest of your setup is behaving. Clean input first, then train on it.</p>
+
+  <h2>Deadzones differ by game and genre</h2>
+  <p>There's no universal "correct" deadzone, because different games want different things from the stick. A slow, deliberate strategy or driving game can run a generous deadzone without anyone noticing, since fine sub-pixel aim near center isn't the point. A competitive shooter is the opposite: players there fight for the smallest deadzone their hardware allows, because every bit of thrown-away micro-movement is precision they'd rather keep for tracking a target. This is exactly why the same controller can feel great in one title and drifty in another — you're meeting a different threshold in each. Some games also expose separate deadzones for aim versus movement, or let you pick the deadzone shape, and a few offer an "anti-deadzone" that pushes small inputs up so the stick feels more immediate. All of these are just different ways of managing the same underlying reality: the hardware never truly rests at zero, and someone has to decide how much of that to ignore. Knowing your controller's real resting magnitude lets you make that decision deliberately in every game that gives you the slider, instead of leaving it on a default that was tuned for someone else's hardware.</p>
+
+  <h2>The bottom line</h2>
+  <p>Deadzones aren't a bug — they're the compromise that makes noisy analog hardware feel precise, and they're the reason small drift often goes unnoticed for months. Knowing where your stick truly rests, and how big a deadzone it needs, turns a vague "my aim feels off" into a number you can act on. <a href="/">Open the drift test</a>, watch the deadzone ring against your stick's live position, and set yours with confidence.</p>
+
+  <h2>Keep reading</h2>
+  <ul>
+    <li><a href="/articles/what-is-stick-drift-and-what-causes-it.html">What is stick drift and what causes it?</a></li>
+    <li><a href="/articles/how-to-fix-controller-stick-drift.html">How to fix controller stick drift</a></li>
+    <li><a href="/articles/how-to-test-your-controller-for-drift.html">How to test your controller for drift</a></li>
+    <li><a href="/">Run the stick drift test</a></li>
+  </ul>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

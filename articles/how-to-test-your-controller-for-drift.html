@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to Test Your Controller for Drift — stickdriftcheck.com</title>
+<meta name="description" content="A reliable, step-by-step method to test any game controller for stick drift in your browser: how to calibrate, read the X/Y numbers, interpret PASS vs DRIFT, and avoid false positives.">
+<link rel="canonical" href="https://stickdriftcheck.com/articles/how-to-test-your-controller-for-drift.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+  </div>
+</header>
+<main class="container-narrow">
+  <h1>How to Test Your Controller for Drift</h1>
+
+  <p>Testing for stick drift is easy to do badly and easy to do well — the difference is method. A quick glance in a game will tell you a stick is "acting weird," but it won't tell you which stick, how bad it is, or whether it's real drift or a normal deadzone doing its job. This guide gives you a repeatable process using the browser-based <a href="/">stick drift test</a>, so you get a clear PASS or DRIFT verdict with numbers behind it.</p>
+
+  <h2>Why test in the browser</h2>
+  <p>The Gamepad API that modern browsers expose reports the <em>raw</em> axis values from your controller, from −1 to +1 on each axis, before any game applies its own deadzone or smoothing. That's exactly what you want for diagnosis: games deliberately hide small drift to keep play feeling smooth, which is great for playing and terrible for testing. Reading the raw values lets you see an offset a game would have masked. It also works with Xbox, PlayStation, Switch Pro, and generic controllers over USB or Bluetooth, with nothing to install and nothing uploaded.</p>
+
+  <h2>Step 1: Connect and confirm detection</h2>
+  <p>Plug in your controller, or pair it over Bluetooth, and press any button. Some browsers only reveal a gamepad after it sends its first input, so a button press is what makes it appear. Once connected, the tester shows the controller's name, its mapping, and how many buttons and axes it exposes. If nothing appears, try a different cable or USB port, re-pair Bluetooth, or press a face button again — the page keeps polling and will pick the controller up the moment the browser sees it.</p>
+
+  <h2>Step 2: Run the resting calibration</h2>
+  <p>This is the heart of a good drift test. <strong>Let go of both sticks completely</strong> — don't rest a thumb on them, and set the controller down flat if you can — then start the drift check. The tool samples each stick's position for a few seconds and averages it, which cancels out the tiny frame-to-frame noise every stick produces and gives you a stable measurement of where the stick actually rests. Averaging over time is what separates a trustworthy reading from a single noisy snapshot. When it finishes, each stick gets a verdict: <strong>PASS</strong> if the resting magnitude is within a small threshold of dead center, or <strong>DRIFT</strong> if it sits beyond it, along with the exact measured offset.</p>
+
+  <h2>Step 3: Read the X/Y numbers</h2>
+  <p>Each stick shows a live X and Y value and a dot inside a circle. Centered and healthy means both numbers hover within a few thousandths of 0.000 and the dot sits dead center. A drifting stick parks the dot off-center and holds a clearly nonzero value — say X at 0.14 while you're not touching anything. The <em>magnitude</em>, the straight-line distance from center, is the single number that matters most: it combines both axes into one figure you can compare against the drift threshold. A resting magnitude under roughly 0.05–0.08 is normal slop; consistently above that is drift.</p>
+
+  <h2>Step 4: Test the full range and the buttons</h2>
+  <p>Drift is the headline, but while you're here, sweep each stick slowly around its full circle and watch the dot. It should reach the edge evenly in every direction and return smoothly to center — a stick that snags, flattens on one side, or can't reach full deflection has its own problems. Then run through the buttons, bumpers, stick clicks, and D-pad to confirm each registers, and pull the triggers to check they travel smoothly from 0.00 to 1.00. A controller can pass the drift test and still have a mushy trigger or a dead bumper, so a full pass is worth the extra minute.</p>
+
+  <h2>Avoiding false positives</h2>
+  <p>The most common testing mistake is measuring while touching the stick — even light thumb pressure biases the resting position and can fake a drift reading. Always calibrate hands-off. The second mistake is confusing a deadzone with drift: if you've read that a stick "always shows 0.00" in a game, that's often the game's deadzone zeroing out small values, not proof the hardware is perfect. The browser test bypasses that, which is the point. Finally, a stick that reads nonzero for a moment right after you release it, then settles to center, is springs relaxing — not drift. Real drift is the value that stays. If you want the full picture of why games hide small offsets, read <a href="/articles/controller-deadzones-explained.html">controller deadzones explained</a>.</p>
+
+  <h2>Testing over time beats a single check</h2>
+  <p>One test tells you the state of the controller right now; a habit of testing tells you the trend, which is far more useful. Drift develops gradually, so a stick that measures 0.03 today and 0.05 next month is on a trajectory even if both readings technically pass. Jot down the resting magnitude for each stick whenever you test, and you'll spot the drift climbing long before it ruins a match — early enough to clean the stick or raise a deadzone on your own schedule instead of mid-game. It's also worth testing under the conditions you actually play in: a controller that passes cold on your desk can behave differently after an hour of warm, sweaty play, and Bluetooth versus wired can occasionally differ too. If you own several controllers, testing them side by side quickly shows which one is healthiest and which is due for repair or retirement. The whole check takes under two minutes, costs nothing, and uploads nothing, so there's little reason not to make it routine.</p>
+
+  <h2>What to do with the result</h2>
+  <p>If both sticks PASS, your controller is centering correctly and any in-game issues are probably elsewhere. If either shows DRIFT, note the magnitude and direction, then work through the fixes — cleaning, recalibration, firmware, and if needed a module swap — in our <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix stick drift</a> guide, re-testing after each step. And if you're curious why the stick wears out in the first place, <a href="/articles/what-is-stick-drift-and-what-causes-it.html">what causes stick drift</a> explains the hardware. Ready to check yours? <a href="/">Open the drift test</a> and run the calibration now.</p>
+
+  <h2>Keep reading</h2>
+  <ul>
+    <li><a href="/articles/what-is-stick-drift-and-what-causes-it.html">What is stick drift and what causes it?</a></li>
+    <li><a href="/articles/how-to-fix-controller-stick-drift.html">How to fix controller stick drift</a></li>
+    <li><a href="/articles/controller-deadzones-explained.html">Controller deadzones explained</a></li>
+    <li><a href="/">Run the stick drift test</a></li>
+  </ul>
+</main>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
