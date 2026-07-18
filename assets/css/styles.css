@@ -436,3 +436,6 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
 ::-webkit-scrollbar-track { background: var(--bg-inset); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+.erabbit-mark { display: block; width: 10px; margin: 0 0 0 auto; line-height: 0; }
+.erabbit-mark img { display: block; width: 10px; height: 10px; }
