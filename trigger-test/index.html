@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controller Trigger Test — Check LT/RT and L2/R2 Analog Travel</title>
+<meta name="description" content="Free online controller trigger test. Squeeze LT/RT or L2/R2 and watch a live bar plus a 0.00–1.00 readout for each trigger, so you can spot a trigger that won't reach full pull or won't return to zero.">
+<link rel="canonical" href="https://stickdriftcheck.com/trigger-test/">
+<meta name="theme-color" content="#100a18">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Controller Trigger Test — Check LT/RT and L2/R2 Analog Travel">
+<meta property="og:description" content="Squeeze each trigger and watch a live bar and 0.00–1.00 readout. Spot a trigger that won't reach full pull or won't return to zero.">
+<meta property="og:url" content="https://stickdriftcheck.com/trigger-test/">
+<meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Controller Trigger Test — Check LT/RT and L2/R2 Analog Travel">
+<meta name="twitter:description" content="Squeeze each trigger and watch a live bar and 0.00–1.00 readout. Spot a trigger that won't reach full pull or won't return to zero.">
+<meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Controller Trigger Test",
+  "url": "https://stickdriftcheck.com/trigger-test/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free browser-based analog trigger test showing live travel bars and numeric values for LT/RT and L2/R2."
+}
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <nav class="tabbar" aria-label="Controller tools">
+    <a class="tab-btn" href="/stick-drift-test/">Stick Drift</a>
+    <a class="tab-btn" href="/deadzone-visualizer/">Deadzone</a>
+    <a class="tab-btn" href="/controller-button-test/">Buttons</a>
+    <a class="tab-btn" href="/trigger-test/" aria-current="page">Triggers</a>
+    <a class="tab-btn" href="/rumble-test/">Rumble</a>
+  </nav>
+
+  <div class="hero">
+    <h1>Controller Trigger Test</h1>
+    <p>Squeeze LT/RT (or L2/R2) and watch the travel bars fill from 0.00 to 1.00. Everything runs in your browser — nothing is uploaded.</p>
+  </div>
+
+  <section id="prompt" class="prompt">
+    <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
+    <h2>Connect a controller and press any button</h2>
+    <p>Plug in (or pair) an Xbox, PlayStation, Switch Pro, or generic USB/Bluetooth gamepad, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
+  </section>
+
+  <section id="tester" hidden>
+    <div class="device-bar">
+      <span class="dot" aria-hidden="true"></span>
+      <span>
+        <span class="device-name" id="device-name">Controller</span>
+        <span class="device-meta" id="device-meta"></span>
+      </span>
+      <label class="device-select" hidden id="device-select-wrap">
+        <span class="visually-hidden">Select controller</span>
+        <select id="device-select" aria-label="Select controller"></select>
+      </label>
+    </div>
+
+    <div class="panel">
+      <h2>Triggers</h2>
+      <div id="trigger-list"></div>
+    </div>
+  </section>
+
+  <section class="container-narrow about-section" style="padding-left:0;padding-right:0;">
+    <h2>What a healthy trigger looks like</h2>
+    <p>Unlike face buttons, the shoulder triggers on a modern controller are analog: they report how far they've travelled as a number between <code>0.00</code> fully released and <code>1.00</code> fully squeezed. Squeeze slowly and watch the bar. It should climb smoothly across the whole range, reach a solid 1.00 at the stop, and fall straight back to 0.00 the instant you let go. Three things go wrong, and all three are visible here.</p>
+    <p>A trigger that <strong>never reaches 1.00</strong> has lost travel — usually a worn Hall-effect magnet or potentiometer, sometimes debris under the paddle — and in a racing game that means you can no longer apply full throttle. A trigger that <strong>rests above 0.00</strong> is the trigger equivalent of stick drift: your car creeps, or your weapon fires on its own, because the game sees constant partial input. A trigger that <strong>jumps in steps</strong> rather than sweeping smoothly has a failing sensor, and will feel notchy in anything that maps trigger travel to speed.</p>
+    <p>If this page reports that your controller exposes no analog triggers, your browser has it in a non-standard mapping, or the pad genuinely has digital shoulder buttons — several third-party and retro-style controllers do. In that case the shoulder buttons still show up as simple on/off cells in the button test.</p>
+    <p>Next: run the <a href="/controller-button-test/">controller button test</a> for the digital buttons, or the <a href="/stick-drift-test/">stick drift test</a> for the thumbsticks.</p>
+  </section>
+
+  <section class="container-narrow related-tools" style="padding-left:0;padding-right:0;">
+    <h2>Related tools</h2>
+    <ul class="related-list">
+      <li><a href="/stick-drift-test/">Stick drift test</a></li>
+      <li><a href="/deadzone-visualizer/">Deadzone visualizer</a></li>
+      <li><a href="/controller-button-test/">Controller button test</a></li>
+      <li><a href="/rumble-test/">Rumble test</a></li>
+      <li><a href="/">All controller tools</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/app.js"></script>
+<a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
+</body>
+</html>

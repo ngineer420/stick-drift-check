@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://stickdriftcheck.com/articles/what-is-stick-drift-and-what-causes-it.html">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -17,12 +18,15 @@
       <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
       <span class="brand-tag">controller drift test</span>
     </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
   </div>
 </header>
 <main class="container-narrow">
   <h1>What Is Stick Drift and What Causes It?</h1>
 
-  <p>Stick drift is when a game controller registers movement on an analog stick that you didn't make — your character keeps walking, the camera slowly pans, or a menu cursor creeps to one side while your thumb is nowhere near the stick. It's one of the most common ways a controller fails, and because it develops gradually, most people don't notice until it's already affecting their aim. If you suspect it, the fastest way to confirm is to <a href="/">run a stick drift test</a> and watch whether the resting position sits off-center. But to understand why it happens, you have to look at what's actually inside the stick.</p>
+  <p>Stick drift is when a game controller registers movement on an analog stick that you didn't make — your character keeps walking, the camera slowly pans, or a menu cursor creeps to one side while your thumb is nowhere near the stick. It's one of the most common ways a controller fails, and because it develops gradually, most people don't notice until it's already affecting their aim. If you suspect it, the fastest way to confirm is to <a href="/stick-drift-test/">run a stick drift test</a> and watch whether the resting position sits off-center. But to understand why it happens, you have to look at what's actually inside the stick.</p>
 
   <h2>How an analog stick works</h2>
   <p>The thumbstick you push around sits on top of a gimbal — a two-axis pivot that translates your movement into two separate measurements, one for horizontal (X) and one for vertical (Y). In the overwhelming majority of controllers sold over the last two decades, each axis is read by a <strong>potentiometer</strong>: a small component with a resistive track and a wiper that slides along it. As the stick tilts, the wiper moves across the track, changing the resistance and therefore the voltage the controller reads. The console or PC converts that voltage into a number, conventionally scaled from −1 to +1 on each axis, with 0 meaning "centered."</p>
@@ -43,14 +47,14 @@
   <p>Not every stray movement is drift. A stick that reads a small nonzero value only when you've just let go — then settles — might just be springs relaxing. Real drift is persistent: the resting value stays offset, and it's often large enough to push past the game's deadzone. The reliable way to separate the two is to measure. Let go of the sticks completely and watch the numeric X/Y readout: a healthy stick hovers within a few thousandths of zero, while a drifting one parks at a clearly nonzero offset that doesn't return. Our <a href="/articles/how-to-test-your-controller-for-drift.html">testing guide</a> walks through doing this properly, and <a href="/articles/controller-deadzones-explained.html">controller deadzones explained</a> covers why a well-set deadzone can mask minor drift entirely.</p>
 
   <h2>The takeaway</h2>
-  <p>Stick drift is a mechanical wear problem dressed up as a software glitch. The wiper-and-track design that made analog sticks cheap and precise is also the thing that eventually wears down, and dust, tired springs, and stale calibration all add to the effect. The good news is that a fair share of drift cases come from causes you can address at home, and even the worst cases are usually a stick-module replacement rather than a whole new controller. Start by confirming the problem: <a href="/">test your controller for drift</a> right now in your browser, then decide what to do about it.</p>
+  <p>Stick drift is a mechanical wear problem dressed up as a software glitch. The wiper-and-track design that made analog sticks cheap and precise is also the thing that eventually wears down, and dust, tired springs, and stale calibration all add to the effect. The good news is that a fair share of drift cases come from causes you can address at home, and even the worst cases are usually a stick-module replacement rather than a whole new controller. Start by confirming the problem: <a href="/stick-drift-test/">test your controller for drift</a> right now in your browser, then decide what to do about it.</p>
 
   <h2>Keep reading</h2>
   <ul>
     <li><a href="/articles/how-to-fix-controller-stick-drift.html">How to fix controller stick drift (Xbox, PS5, Switch Pro)</a></li>
     <li><a href="/articles/how-to-test-your-controller-for-drift.html">How to test your controller for drift</a></li>
     <li><a href="/articles/controller-deadzones-explained.html">Controller deadzones explained</a></li>
-    <li><a href="/">Run the stick drift test</a></li>
+    <li><a href="/stick-drift-test/">Run the stick drift test</a></li>
   </ul>
 </main>
 <footer class="site-footer">

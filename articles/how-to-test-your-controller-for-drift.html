@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://stickdriftcheck.com/articles/how-to-test-your-controller-for-drift.html">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -17,12 +18,15 @@
       <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
       <span class="brand-tag">controller drift test</span>
     </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
   </div>
 </header>
 <main class="container-narrow">
   <h1>How to Test Your Controller for Drift</h1>
 
-  <p>Testing for stick drift is easy to do badly and easy to do well — the difference is method. A quick glance in a game will tell you a stick is "acting weird," but it won't tell you which stick, how bad it is, or whether it's real drift or a normal deadzone doing its job. This guide gives you a repeatable process using the browser-based <a href="/">stick drift test</a>, so you get a clear PASS or DRIFT verdict with numbers behind it.</p>
+  <p>Testing for stick drift is easy to do badly and easy to do well — the difference is method. A quick glance in a game will tell you a stick is "acting weird," but it won't tell you which stick, how bad it is, or whether it's real drift or a normal deadzone doing its job. This guide gives you a repeatable process using the browser-based <a href="/stick-drift-test/">stick drift test</a>, so you get a clear PASS or DRIFT verdict with numbers behind it.</p>
 
   <h2>Why test in the browser</h2>
   <p>The Gamepad API that modern browsers expose reports the <em>raw</em> axis values from your controller, from −1 to +1 on each axis, before any game applies its own deadzone or smoothing. That's exactly what you want for diagnosis: games deliberately hide small drift to keep play feeling smooth, which is great for playing and terrible for testing. Reading the raw values lets you see an offset a game would have masked. It also works with Xbox, PlayStation, Switch Pro, and generic controllers over USB or Bluetooth, with nothing to install and nothing uploaded.</p>
@@ -46,14 +50,14 @@
   <p>One test tells you the state of the controller right now; a habit of testing tells you the trend, which is far more useful. Drift develops gradually, so a stick that measures 0.03 today and 0.05 next month is on a trajectory even if both readings technically pass. Jot down the resting magnitude for each stick whenever you test, and you'll spot the drift climbing long before it ruins a match — early enough to clean the stick or raise a deadzone on your own schedule instead of mid-game. It's also worth testing under the conditions you actually play in: a controller that passes cold on your desk can behave differently after an hour of warm, sweaty play, and Bluetooth versus wired can occasionally differ too. If you own several controllers, testing them side by side quickly shows which one is healthiest and which is due for repair or retirement. The whole check takes under two minutes, costs nothing, and uploads nothing, so there's little reason not to make it routine.</p>
 
   <h2>What to do with the result</h2>
-  <p>If both sticks PASS, your controller is centering correctly and any in-game issues are probably elsewhere. If either shows DRIFT, note the magnitude and direction, then work through the fixes — cleaning, recalibration, firmware, and if needed a module swap — in our <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix stick drift</a> guide, re-testing after each step. And if you're curious why the stick wears out in the first place, <a href="/articles/what-is-stick-drift-and-what-causes-it.html">what causes stick drift</a> explains the hardware. Ready to check yours? <a href="/">Open the drift test</a> and run the calibration now.</p>
+  <p>If both sticks PASS, your controller is centering correctly and any in-game issues are probably elsewhere. If either shows DRIFT, note the magnitude and direction, then work through the fixes — cleaning, recalibration, firmware, and if needed a module swap — in our <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix stick drift</a> guide, re-testing after each step. And if you're curious why the stick wears out in the first place, <a href="/articles/what-is-stick-drift-and-what-causes-it.html">what causes stick drift</a> explains the hardware. Ready to check yours? <a href="/stick-drift-test/">Open the drift test</a> and run the calibration now.</p>
 
   <h2>Keep reading</h2>
   <ul>
     <li><a href="/articles/what-is-stick-drift-and-what-causes-it.html">What is stick drift and what causes it?</a></li>
     <li><a href="/articles/how-to-fix-controller-stick-drift.html">How to fix controller stick drift</a></li>
     <li><a href="/articles/controller-deadzones-explained.html">Controller deadzones explained</a></li>
-    <li><a href="/">Run the stick drift test</a></li>
+    <li><a href="/stick-drift-test/">Run the stick drift test</a></li>
   </ul>
 </main>
 <footer class="site-footer">

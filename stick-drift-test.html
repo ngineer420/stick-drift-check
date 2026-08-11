@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controller Stick Drift Test — Check Both Analog Sticks Free</title>
+<meta name="description" content="Free online stick drift test. Release both thumbsticks, run a three-second calibration, and get a PASS or DRIFT verdict with the exact resting offset for each analog stick. Works with Xbox, PS5, Switch Pro, and generic gamepads.">
+<link rel="canonical" href="https://stickdriftcheck.com/stick-drift-test/">
+<meta name="theme-color" content="#100a18">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Controller Stick Drift Test — Check Both Analog Sticks Free">
+<meta property="og:description" content="Release both sticks, run the drift check, and get a PASS or DRIFT verdict with the exact resting offset. Runs entirely in your browser.">
+<meta property="og:url" content="https://stickdriftcheck.com/stick-drift-test/">
+<meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Controller Stick Drift Test — Check Both Analog Sticks Free">
+<meta name="twitter:description" content="Release both sticks, run the drift check, and get a PASS or DRIFT verdict with the exact resting offset. Runs entirely in your browser.">
+<meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Controller Stick Drift Test",
+  "url": "https://stickdriftcheck.com/stick-drift-test/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free browser-based stick drift test that measures each analog stick's resting position and reports PASS or DRIFT with the exact offset."
+}
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <nav class="tabbar" aria-label="Controller tools">
+    <a class="tab-btn" href="/stick-drift-test/" aria-current="page">Stick Drift</a>
+    <a class="tab-btn" href="/deadzone-visualizer/">Deadzone</a>
+    <a class="tab-btn" href="/controller-button-test/">Buttons</a>
+    <a class="tab-btn" href="/trigger-test/">Triggers</a>
+    <a class="tab-btn" href="/rumble-test/">Rumble</a>
+  </nav>
+
+  <div class="hero">
+    <h1>Controller Stick Drift Test</h1>
+    <p>Let go of both thumbsticks, run the check, and see whether either stick wanders off centre on its own. Everything runs in your browser — nothing is uploaded.</p>
+  </div>
+
+  <!-- Shown while no gamepad is detected -->
+  <section id="prompt" class="prompt">
+    <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
+    <h2>Connect a controller and press any button</h2>
+    <p>Plug in (or pair) an Xbox, PlayStation, Switch Pro, or generic USB/Bluetooth gamepad, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
+  </section>
+
+  <!-- Shown once a gamepad is connected -->
+  <section id="tester" hidden>
+    <div class="device-bar">
+      <span class="dot" aria-hidden="true"></span>
+      <span>
+        <span class="device-name" id="device-name">Controller</span>
+        <span class="device-meta" id="device-meta"></span>
+      </span>
+      <label class="device-select" hidden id="device-select-wrap">
+        <span class="visually-hidden">Select controller</span>
+        <select id="device-select" aria-label="Select controller"></select>
+      </label>
+    </div>
+
+    <div class="calib">
+      <div class="calib-text">
+        <strong>Drift calibration</strong>
+        <p id="calib-msg">Let go of both sticks completely, then start the check. We'll measure the resting position for a few seconds.</p>
+      </div>
+      <div class="calib-actions">
+        <button type="button" id="calib-btn" class="primary">Start drift check</button>
+        <button type="button" id="calib-reset" hidden>Reset</button>
+      </div>
+      <div class="calib-progress" id="calib-progress" hidden><span></span></div>
+    </div>
+
+    <div class="sticks">
+      <div class="stick-card">
+        <h3><span>Left stick</span></h3>
+        <div class="stick-pad" data-stick="left">
+          <div class="stick-cross-h"></div>
+          <div class="stick-cross-v"></div>
+          <div class="stick-deadzone" data-dz></div>
+          <div class="stick-dot" data-dot></div>
+        </div>
+        <div class="stick-readout">
+          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
+          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
+        </div>
+        <div class="stick-result" data-result>Not yet checked</div>
+      </div>
+
+      <div class="stick-card">
+        <h3><span>Right stick</span></h3>
+        <div class="stick-pad" data-stick="right">
+          <div class="stick-cross-h"></div>
+          <div class="stick-cross-v"></div>
+          <div class="stick-deadzone" data-dz></div>
+          <div class="stick-dot" data-dot></div>
+        </div>
+        <div class="stick-readout">
+          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
+          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
+        </div>
+        <div class="stick-result" data-result>Not yet checked</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Live axis readout</h2>
+      <table class="axis-table">
+        <thead><tr><th>Axis</th><th>Mapping</th><th style="text-align:right;">Value</th></tr></thead>
+        <tbody id="axis-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="container-narrow about-section" style="padding-left:0;padding-right:0;">
+    <h2>How the stick drift test works</h2>
+    <p>Stick drift is an analog stick reporting movement while you aren't touching it. This test measures that directly: take your thumbs off both sticks, press <strong>Start drift check</strong>, and the page samples every animation frame for three seconds, averaging each stick's resting X and Y. If the averaged resting position sits further than <strong>0.08</strong> from dead centre, the stick is flagged <strong>DRIFT</strong>; inside that radius it passes. The exact offset is printed next to the verdict so you can compare a stick against itself over time, or against its partner on the same controller.</p>
+    <p>Averaging over three seconds matters, because a single frame can catch electrical noise that isn't real drift. A stick that reads 0.004 one frame and 0.002 the next is healthy. A stick that consistently rests at 0.15 on the X axis will pull your aim left or right in every game that doesn't apply a generous deadzone. The <strong>live axis readout</strong> underneath shows the raw values your browser receives for every axis the controller exposes, which is also the quickest way to spot a stick that only drifts once it warms up or after you flick it hard.</p>
+    <p>Nothing you do here is uploaded. The page uses the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API" rel="nofollow">Gamepad API</a> your browser already ships, all analysis happens locally, and no controller data leaves your device.</p>
+    <p>Got a DRIFT verdict? Read <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix controller stick drift</a>, or check whether a <a href="/deadzone-visualizer/">larger deadzone</a> would hide it.</p>
+  </section>
+
+  <section class="container-narrow related-tools" style="padding-left:0;padding-right:0;">
+    <h2>Related tools</h2>
+    <ul class="related-list">
+      <li><a href="/deadzone-visualizer/">Deadzone visualizer</a></li>
+      <li><a href="/controller-button-test/">Controller button test</a></li>
+      <li><a href="/trigger-test/">Trigger test</a></li>
+      <li><a href="/rumble-test/">Rumble test</a></li>
+      <li><a href="/">All controller tools</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/app.js"></script>
+<a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
+</body>
+</html>

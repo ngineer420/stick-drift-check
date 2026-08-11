@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controller Rumble Test — Test Gamepad Vibration in Your Browser</title>
+<meta name="description" content="Free online controller rumble test. Fire a short dual-rumble pulse at your gamepad and feel whether both vibration motors still work. Supports Xbox, PS5, and Switch Pro controllers over USB and Bluetooth.">
+<link rel="canonical" href="https://stickdriftcheck.com/rumble-test/">
+<meta name="theme-color" content="#100a18">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Controller Rumble Test — Test Gamepad Vibration in Your Browser">
+<meta property="og:description" content="Fire a short dual-rumble pulse at your gamepad and feel whether both vibration motors still work. Free, no download.">
+<meta property="og:url" content="https://stickdriftcheck.com/rumble-test/">
+<meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Controller Rumble Test — Test Gamepad Vibration in Your Browser">
+<meta name="twitter:description" content="Fire a short dual-rumble pulse at your gamepad and feel whether both vibration motors still work. Free, no download.">
+<meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Controller Rumble Test",
+  "url": "https://stickdriftcheck.com/rumble-test/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free browser-based gamepad rumble test that fires a dual-rumble haptic pulse at a connected controller."
+}
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <nav class="tabbar" aria-label="Controller tools">
+    <a class="tab-btn" href="/stick-drift-test/">Stick Drift</a>
+    <a class="tab-btn" href="/deadzone-visualizer/">Deadzone</a>
+    <a class="tab-btn" href="/controller-button-test/">Buttons</a>
+    <a class="tab-btn" href="/trigger-test/">Triggers</a>
+    <a class="tab-btn" href="/rumble-test/" aria-current="page">Rumble</a>
+  </nav>
+
+  <div class="hero">
+    <h1>Controller Rumble Test</h1>
+    <p>Fire a short vibration pulse at your gamepad and feel whether the motors still work. Everything runs in your browser — nothing is uploaded.</p>
+  </div>
+
+  <section id="prompt" class="prompt">
+    <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
+    <h2>Connect a controller and press any button</h2>
+    <p>Plug in (or pair) an Xbox, PlayStation, Switch Pro, or generic USB/Bluetooth gamepad, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
+  </section>
+
+  <section id="tester" hidden>
+    <div class="device-bar">
+      <span class="dot" aria-hidden="true"></span>
+      <span>
+        <span class="device-name" id="device-name">Controller</span>
+        <span class="device-meta" id="device-meta"></span>
+      </span>
+      <label class="device-select" hidden id="device-select-wrap">
+        <span class="visually-hidden">Select controller</span>
+        <select id="device-select" aria-label="Select controller"></select>
+      </label>
+    </div>
+
+    <div class="panel">
+      <h2>Rumble / vibration test</h2>
+      <div class="rumble-row">
+        <button type="button" id="rumble-btn">Test rumble</button>
+        <span class="rumble-note" id="rumble-note">Sends a short vibration if your controller and browser support haptics.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-narrow about-section" style="padding-left:0;padding-right:0;">
+    <h2>How the rumble test works</h2>
+    <p>Press <strong>Test rumble</strong> and the page asks your controller for a <code>dual-rumble</code> effect: both the heavy and the light motor at 90% strength for 450&nbsp;ms. Hold the pad loosely in your palm rather than gripping it — a tight grip damps the vibration and can make a working motor feel dead. Run it two or three times. If one side of the controller buzzes and the other stays still, one motor (or its solder joint) has failed, which is a common outcome after a drop.</p>
+    <p>If the button is disabled with a note saying rumble isn't supported, that is a browser or connection limitation more often than a broken controller. Haptics reach the browser through the Gamepad API's vibration actuator, and support is uneven: Chrome and Edge implement it on desktop, Firefox and Safari are patchier, and the same controller frequently rumbles over USB while refusing to over Bluetooth. Before concluding the motors are dead, try a cable, and try a Chromium-based browser.</p>
+    <p>One quirk worth knowing: some browsers only allow haptics after you have interacted with the page, and a few stop the effect if the tab loses focus. If nothing happens on the first press, click somewhere on the page and press again with the tab in the foreground.</p>
+    <p>Next: run the <a href="/controller-button-test/">button test</a>, or check both sticks with the <a href="/stick-drift-test/">stick drift test</a>.</p>
+  </section>
+
+  <section class="container-narrow related-tools" style="padding-left:0;padding-right:0;">
+    <h2>Related tools</h2>
+    <ul class="related-list">
+      <li><a href="/stick-drift-test/">Stick drift test</a></li>
+      <li><a href="/deadzone-visualizer/">Deadzone visualizer</a></li>
+      <li><a href="/controller-button-test/">Controller button test</a></li>
+      <li><a href="/trigger-test/">Trigger test</a></li>
+      <li><a href="/">All controller tools</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/app.js"></script>
+<a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
+</body>
+</html>
