@@ -3,23 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stick Drift Check — Free Controller Stick Drift Test</title>
-<meta name="description" content="A free, no-signup controller stick drift test. Plug in your Xbox, PS5, Switch Pro, or any gamepad and instantly check both analog sticks for drift, dead zones, buttons, triggers, and rumble — right in your browser.">
+<title>Stick Drift Check — Free Online Controller Tester</title>
+<meta name="description" content="Free, no-signup controller tests that run entirely in your browser: stick drift, deadzone visualiser, buttons, analog triggers, and rumble. Works with Xbox, PS5, Switch Pro, and generic gamepads. Nothing is uploaded.">
 <link rel="canonical" href="https://stickdriftcheck.com/">
 <meta name="theme-color" content="#100a18">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Stick Drift Check — Free Controller Stick Drift Test">
-<meta property="og:description" content="Test your game controller for stick drift instantly in your browser. Works with Xbox, PS5, Switch Pro, and generic gamepads. No sign-up, nothing uploaded.">
+<meta property="og:title" content="Stick Drift Check — Free Online Controller Tester">
+<meta property="og:description" content="Test your game controller in your browser: stick drift, deadzones, buttons, triggers, and rumble. Works with Xbox, PS5, and Switch Pro. No sign-up, nothing uploaded.">
 <meta property="og:url" content="https://stickdriftcheck.com/">
 <meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Stick Drift Check — Free Controller Stick Drift Test">
-<meta name="twitter:description" content="Test your game controller for stick drift instantly in your browser. Works with Xbox, PS5, Switch Pro, and generic gamepads.">
+<meta name="twitter:title" content="Stick Drift Check — Free Online Controller Tester">
+<meta name="twitter:description" content="Test your game controller in your browser: stick drift, deadzones, buttons, triggers, and rumble. Works with Xbox, PS5, and Switch Pro.">
 <meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
 
 <script type="application/ld+json">
 {
@@ -30,7 +31,7 @@
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Free browser-based controller stick drift test for Xbox, PlayStation, Switch Pro, and generic gamepads."
+  "description": "Free browser-based controller testing hub: stick drift, deadzone visualiser, buttons, analog triggers, and rumble."
 }
 </script>
 
@@ -52,117 +53,57 @@
 </header>
 
 <main id="main">
+  <nav class="tabbar" aria-label="Controller tools">
+    <a class="tab-btn" href="/stick-drift-test/">Stick Drift</a>
+    <a class="tab-btn" href="/deadzone-visualizer/">Deadzone</a>
+    <a class="tab-btn" href="/controller-button-test/">Buttons</a>
+    <a class="tab-btn" href="/trigger-test/">Triggers</a>
+    <a class="tab-btn" href="/rumble-test/">Rumble</a>
+  </nav>
+
   <div class="hero">
-    <h1>Controller Stick Drift Test</h1>
-    <p>Connect a controller and press any button. Everything runs in your browser — nothing is uploaded.</p>
+    <h1>Test Your Controller in the Browser</h1>
+    <p>Five free checks for any gamepad — stick drift, deadzones, buttons, triggers, and rumble. No downloads, no sign-up, nothing uploaded.</p>
   </div>
 
-  <!-- Shown while no gamepad is detected -->
-  <section id="prompt" class="prompt">
-    <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
-    <h2>Connect a controller and press any button</h2>
-    <p>Plug in (or pair) an Xbox, PlayStation, Switch Pro, or generic USB/Bluetooth gamepad, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
-  </section>
-
-  <!-- Shown once a gamepad is connected -->
-  <section id="tester" hidden>
-    <div class="device-bar">
-      <span class="dot" aria-hidden="true"></span>
-      <span>
-        <span class="device-name" id="device-name">Controller</span>
-        <span class="device-meta" id="device-meta"></span>
-      </span>
-      <label class="device-select" hidden id="device-select-wrap">
-        <span class="visually-hidden">Select controller</span>
-        <select id="device-select" aria-label="Select controller"></select>
-      </label>
-    </div>
-
-    <div class="calib">
-      <div class="calib-text">
-        <strong>Drift calibration</strong>
-        <p id="calib-msg">Let go of both sticks completely, then start the check. We'll measure the resting position for a few seconds.</p>
-      </div>
-      <div class="calib-actions">
-        <button type="button" id="calib-btn" class="primary">Start drift check</button>
-        <button type="button" id="calib-reset" hidden>Reset</button>
-      </div>
-      <div class="calib-progress" id="calib-progress" hidden><span></span></div>
-    </div>
-
-    <div class="sticks">
-      <div class="stick-card">
-        <h3><span>Left stick</span></h3>
-        <div class="stick-pad" data-stick="left">
-          <div class="stick-cross-h"></div>
-          <div class="stick-cross-v"></div>
-          <div class="stick-deadzone" data-dz></div>
-          <div class="stick-dot" data-dot></div>
-        </div>
-        <div class="stick-readout">
-          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
-          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
-        </div>
-        <div class="stick-result" data-result>Not yet checked</div>
-      </div>
-
-      <div class="stick-card">
-        <h3><span>Right stick</span></h3>
-        <div class="stick-pad" data-stick="right">
-          <div class="stick-cross-h"></div>
-          <div class="stick-cross-v"></div>
-          <div class="stick-deadzone" data-dz></div>
-          <div class="stick-dot" data-dot></div>
-        </div>
-        <div class="stick-readout">
-          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
-          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
-        </div>
-        <div class="stick-result" data-result>Not yet checked</div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h2>Deadzone visualization</h2>
-      <div class="deadzone-control">
-        <label for="deadzone">Deadzone radius</label>
-        <input type="range" id="deadzone" min="0" max="0.30" step="0.01" value="0.08">
-        <span class="dz-value" id="deadzone-value">0.08</span>
-      </div>
-      <p style="margin:12px 0 0;color:var(--text-dim);font-size:13px;">The shaded ring on each stick shows the deadzone. A healthy stick rests inside it. If the dot sits outside the ring while you're not touching the stick, that's drift.</p>
-    </div>
-
-    <div class="panel">
-      <h2>Buttons</h2>
-      <div class="btn-grid" id="btn-grid"></div>
-    </div>
-
-    <div class="panel">
-      <h2>Triggers</h2>
-      <div id="trigger-list"></div>
-    </div>
-
-    <div class="panel">
-      <h2>Rumble / vibration test</h2>
-      <div class="rumble-row">
-        <button type="button" id="rumble-btn">Test rumble</button>
-        <span class="rumble-note" id="rumble-note">Sends a short vibration if your controller and browser support haptics.</span>
-      </div>
-    </div>
-
-    <div class="panel">
-      <h2>Live axis readout</h2>
-      <table class="axis-table">
-        <thead><tr><th>Axis</th><th>Mapping</th><th style="text-align:right;">Value</th></tr></thead>
-        <tbody id="axis-body"></tbody>
-      </table>
-    </div>
-  </section>
+  <div class="tool-grid">
+    <a class="tool-card" href="/stick-drift-test/">
+      <span class="tc-icon" aria-hidden="true">🕹️</span>
+      <h2>Stick Drift Test</h2>
+      <p>Release both sticks and get a PASS or DRIFT verdict with the exact resting offset for each one.</p>
+      <span class="tc-go">Open stick drift test →</span>
+    </a>
+    <a class="tool-card" href="/deadzone-visualizer/">
+      <span class="tc-icon" aria-hidden="true">🎯</span>
+      <h2>Deadzone Visualizer</h2>
+      <p>Plot both thumbsticks live and drag the deadzone radius to see what a game would ignore.</p>
+      <span class="tc-go">Open deadzone visualizer →</span>
+    </a>
+    <a class="tool-card" href="/controller-button-test/">
+      <span class="tc-icon" aria-hidden="true">🎮</span>
+      <h2>Controller Button Test</h2>
+      <p>Light up every button as you press it to find one that sticks or no longer registers.</p>
+      <span class="tc-go">Open button test →</span>
+    </a>
+    <a class="tool-card" href="/trigger-test/">
+      <span class="tc-icon" aria-hidden="true">📈</span>
+      <h2>Trigger Test</h2>
+      <p>Watch LT/RT and L2/R2 travel from 0.00 to 1.00 on a live bar with a numeric readout.</p>
+      <span class="tc-go">Open trigger test →</span>
+    </a>
+    <a class="tool-card" href="/rumble-test/">
+      <span class="tc-icon" aria-hidden="true">📳</span>
+      <h2>Rumble Test</h2>
+      <p>Fire a dual-rumble pulse at the pad and feel whether both vibration motors still work.</p>
+      <span class="tc-go">Open rumble test →</span>
+    </a>
+  </div>
 
   <section class="container-narrow about-section">
-    <h2>About this stick drift test</h2>
-    <p>Stick Drift Check is a free, no-signup controller tester that runs entirely in your browser using the Gamepad API. Connect an Xbox, PlayStation, Nintendo Switch Pro, or generic USB/Bluetooth controller, let go of the sticks, and run the drift check — the tool measures each analog stick's resting position and flags <strong>DRIFT</strong> if it wanders outside a small threshold while you aren't touching it. A healthy stick returns to center and passes.</p>
-    <p>Beyond the sticks, you get a live 2D visualizer for each thumbstick with numeric X/Y axis values, a configurable deadzone ring, live pressed/released state for every button (face buttons, bumpers, stick clicks, D-pad, Start/Select), analog trigger bars, a rumble test, and a full axis readout table. Nothing you do is uploaded — all detection and analysis happen locally on your device, and no controller data ever leaves your browser.</p>
+    <h2>About Stick Drift Check</h2>
+    <p>Stick Drift Check is a free, no-signup set of controller tests that run entirely in your browser using the Gamepad API. Connect an Xbox, PlayStation, Nintendo Switch Pro, or generic USB/Bluetooth controller, press any button so the browser can see it, and every tool on this site comes to life — no driver, no download, no account.</p>
+    <p>The five tools split cleanly by what you're trying to find out. The <a href="/stick-drift-test/">stick drift test</a> measures each analog stick's resting position over a three-second window and flags <strong>DRIFT</strong> when a released stick wanders outside a small threshold. The <a href="/deadzone-visualizer/">deadzone visualizer</a> plots both sticks against an adjustable deadzone ring so you can see whether a game would swallow that drift or not. The <a href="/controller-button-test/">button test</a> shows live pressed state for every button the pad reports, the <a href="/trigger-test/">trigger test</a> gives analog travel bars for LT/RT and L2/R2, and the <a href="/rumble-test/">rumble test</a> fires a haptic pulse at both vibration motors.</p>
+    <p>Nothing you do is uploaded. All detection and analysis happen locally on your device, and no controller data ever leaves your browser.</p>
   </section>
 
   <section class="container-narrow" id="articles" style="padding-top:0;">
@@ -196,7 +137,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/app.js"></script>
 <a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
 </body>
 </html>

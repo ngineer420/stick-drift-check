@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Controller Deadzone Visualizer — See Your Stick Deadzone</title>
+<meta name="description" content="Free online controller deadzone visualizer. Drag the deadzone radius from 0.00 to 0.30 and watch a live 2D plot of each thumbstick to see exactly which movements a game would ignore. Runs entirely in your browser.">
+<link rel="canonical" href="https://stickdriftcheck.com/deadzone-visualizer/">
+<meta name="theme-color" content="#100a18">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Controller Deadzone Visualizer — See Your Stick Deadzone">
+<meta property="og:description" content="Drag the deadzone radius and watch a live 2D plot of each thumbstick to see exactly which movements a game would ignore.">
+<meta property="og:url" content="https://stickdriftcheck.com/deadzone-visualizer/">
+<meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Controller Deadzone Visualizer — See Your Stick Deadzone">
+<meta name="twitter:description" content="Drag the deadzone radius and watch a live 2D plot of each thumbstick to see exactly which movements a game would ignore.">
+<meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Controller Deadzone Visualizer",
+  "url": "https://stickdriftcheck.com/deadzone-visualizer/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free browser-based deadzone visualizer that plots each thumbstick live against an adjustable deadzone radius."
+}
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <nav class="tabbar" aria-label="Controller tools">
+    <a class="tab-btn" href="/stick-drift-test/">Stick Drift</a>
+    <a class="tab-btn" href="/deadzone-visualizer/" aria-current="page">Deadzone</a>
+    <a class="tab-btn" href="/controller-button-test/">Buttons</a>
+    <a class="tab-btn" href="/trigger-test/">Triggers</a>
+    <a class="tab-btn" href="/rumble-test/">Rumble</a>
+  </nav>
+
+  <div class="hero">
+    <h1>Controller Deadzone Visualizer</h1>
+    <p>Plot both thumbsticks live and drag the deadzone radius to see exactly which movements a game would throw away. Everything runs in your browser — nothing is uploaded.</p>
+  </div>
+
+  <section id="prompt" class="prompt">
+    <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
+    <h2>Connect a controller and press any button</h2>
+    <p>Plug in (or pair) an Xbox, PlayStation, Switch Pro, or generic USB/Bluetooth gamepad, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
+  </section>
+
+  <section id="tester" hidden>
+    <div class="device-bar">
+      <span class="dot" aria-hidden="true"></span>
+      <span>
+        <span class="device-name" id="device-name">Controller</span>
+        <span class="device-meta" id="device-meta"></span>
+      </span>
+      <label class="device-select" hidden id="device-select-wrap">
+        <span class="visually-hidden">Select controller</span>
+        <select id="device-select" aria-label="Select controller"></select>
+      </label>
+    </div>
+
+    <div class="sticks">
+      <div class="stick-card">
+        <h3><span>Left stick</span></h3>
+        <div class="stick-pad" data-stick="left">
+          <div class="stick-cross-h"></div>
+          <div class="stick-cross-v"></div>
+          <div class="stick-deadzone" data-dz></div>
+          <div class="stick-dot" data-dot></div>
+        </div>
+        <div class="stick-readout">
+          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
+          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
+        </div>
+      </div>
+
+      <div class="stick-card">
+        <h3><span>Right stick</span></h3>
+        <div class="stick-pad" data-stick="right">
+          <div class="stick-cross-h"></div>
+          <div class="stick-cross-v"></div>
+          <div class="stick-deadzone" data-dz></div>
+          <div class="stick-dot" data-dot></div>
+        </div>
+        <div class="stick-readout">
+          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
+          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Deadzone radius</h2>
+      <div class="deadzone-control">
+        <label for="deadzone">Deadzone radius</label>
+        <input type="range" id="deadzone" min="0" max="0.30" step="0.01" value="0.08">
+        <span class="dz-value" id="deadzone-value">0.08</span>
+      </div>
+      <p style="margin:12px 0 0;color:var(--text-dim);font-size:13px;">The shaded ring on each stick shows the deadzone. A healthy stick rests inside it. If the dot sits outside the ring while you're not touching the stick, that's drift.</p>
+    </div>
+  </section>
+
+  <section class="container-narrow about-section" style="padding-left:0;padding-right:0;">
+    <h2>What a deadzone is, and why you can see it here</h2>
+    <p>A deadzone is a radius around the centre of an analog stick inside which a game ignores input entirely. It exists because no stick returns to exactly <code>0.000, 0.000</code>: manufacturing tolerance, spring wear, and sensor noise all leave a small resting offset, and without a deadzone your character would creep across the screen forever. The shaded ring on each pad above is that radius drawn to scale, and the bright dot is where your stick actually is, updated every animation frame.</p>
+    <p>Drag the slider and the ring resizes live. This is the fastest way to answer two questions. First, <strong>is my resting offset inside a typical deadzone?</strong> Most games use something between 0.05 and 0.15 — if your released stick sits inside the ring at 0.08, the drift is real but most games will already be swallowing it. Second, <strong>how much travel am I losing?</strong> A deadzone big enough to hide serious drift also eats the slow, precise movements you need for aiming, which is the trade-off behind every "increase your deadzone" fix.</p>
+    <p>Watch the dot while you roll the stick around the rim, too. A healthy stick traces a smooth circle or a rounded square out to the edge. Flat spots, sudden jumps, or a rim it can't reach on one side point at a worn potentiometer rather than a centring problem.</p>
+    <p>More on the trade-off in <a href="/articles/controller-deadzones-explained.html">controller deadzones explained</a>, or run the <a href="/stick-drift-test/">stick drift test</a> for a measured PASS/DRIFT verdict.</p>
+  </section>
+
+  <section class="container-narrow related-tools" style="padding-left:0;padding-right:0;">
+    <h2>Related tools</h2>
+    <ul class="related-list">
+      <li><a href="/stick-drift-test/">Stick drift test</a></li>
+      <li><a href="/controller-button-test/">Controller button test</a></li>
+      <li><a href="/trigger-test/">Trigger test</a></li>
+      <li><a href="/rumble-test/">Rumble test</a></li>
+      <li><a href="/">All controller tools</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/app.js"></script>
+<a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
+</body>
+</html>
