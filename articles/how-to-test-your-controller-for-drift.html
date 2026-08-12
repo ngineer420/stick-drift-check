@@ -12,6 +12,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="/" aria-label="stickdriftcheck.com home">
@@ -23,7 +24,35 @@
     </div>
   </div>
 </header>
-<main class="container-narrow">
+
+<!-- nav:start -->
+<nav class="toolbar" aria-label="Tools">
+  <details class="tb-menu">
+    <summary class="tb-trigger" aria-label="All 5 tests">
+      <span class="tb-glyph" aria-hidden="true">&#9636;</span>
+      <span class="tb-label">All 5<span class="tb-label-long"> tests</span></span>
+    </summary>
+    <div class="tb-sheet is-flat">
+      <ul>
+        <li><a href="/stick-drift-test/">Stick Drift Test</a></li>
+        <li><a href="/deadzone-visualizer/">Deadzone Visualizer</a></li>
+        <li><a href="/controller-button-test/">Controller Button Test</a></li>
+        <li><a href="/trigger-test/">Trigger Test</a></li>
+        <li><a href="/rumble-test/">Rumble Test</a></li>
+      </ul>
+    </div>
+  </details>
+  <div class="tb-scrim"></div>
+  <ul class="tb-rail">
+    <li><a href="/stick-drift-test/">Stick Drift</a></li>
+    <li><a href="/deadzone-visualizer/">Deadzone</a></li>
+    <li><a href="/controller-button-test/">Buttons</a></li>
+    <li><a href="/trigger-test/">Triggers</a></li>
+    <li><a href="/rumble-test/">Rumble</a></li>
+  </ul>
+</nav>
+<!-- nav:end -->
+<main id="main" class="container-narrow">
   <h1>How to Test Your Controller for Drift</h1>
 
   <p>Testing for stick drift is easy to do badly and easy to do well — the difference is method. A quick glance in a game will tell you a stick is "acting weird," but it won't tell you which stick, how bad it is, or whether it's real drift or a normal deadzone doing its job. This guide gives you a repeatable process using the browser-based <a href="/stick-drift-test/">stick drift test</a>, so you get a clear PASS or DRIFT verdict with numbers behind it.</p>

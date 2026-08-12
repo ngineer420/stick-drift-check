@@ -12,6 +12,7 @@
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="header-inner">
     <a class="brand" href="/" aria-label="stickdriftcheck.com home">
@@ -23,7 +24,35 @@
     </div>
   </div>
 </header>
-<main class="container-narrow">
+
+<!-- nav:start -->
+<nav class="toolbar" aria-label="Tools">
+  <details class="tb-menu">
+    <summary class="tb-trigger" aria-label="All 5 tests">
+      <span class="tb-glyph" aria-hidden="true">&#9636;</span>
+      <span class="tb-label">All 5<span class="tb-label-long"> tests</span></span>
+    </summary>
+    <div class="tb-sheet is-flat">
+      <ul>
+        <li><a href="/stick-drift-test/">Stick Drift Test</a></li>
+        <li><a href="/deadzone-visualizer/">Deadzone Visualizer</a></li>
+        <li><a href="/controller-button-test/">Controller Button Test</a></li>
+        <li><a href="/trigger-test/">Trigger Test</a></li>
+        <li><a href="/rumble-test/">Rumble Test</a></li>
+      </ul>
+    </div>
+  </details>
+  <div class="tb-scrim"></div>
+  <ul class="tb-rail">
+    <li><a href="/stick-drift-test/">Stick Drift</a></li>
+    <li><a href="/deadzone-visualizer/">Deadzone</a></li>
+    <li><a href="/controller-button-test/">Buttons</a></li>
+    <li><a href="/trigger-test/">Triggers</a></li>
+    <li><a href="/rumble-test/">Rumble</a></li>
+  </ul>
+</nav>
+<!-- nav:end -->
+<main id="main" class="container-narrow">
   <h1>Controller Deadzones Explained</h1>
 
   <p>A deadzone is a small region around the center of an analog stick where input is deliberately ignored — treated as zero even though the stick is reporting a slightly nonzero value. It sounds like a flaw, but it's one of the most important pieces of good controller feel, and it's directly tied to stick drift. Understanding deadzones tells you why a drifting stick can still feel fine in one game and unplayable in another, and how to tune the trade-off. If you want to see one in action, the <a href="/stick-drift-test/">stick drift test</a> draws an adjustable deadzone ring around each stick's live position.</p>
