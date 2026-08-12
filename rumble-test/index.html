@@ -52,15 +52,35 @@
   </div>
 </header>
 
-<main id="main">
-  <nav class="tabbar" aria-label="Controller tools">
-    <a class="tab-btn" href="/stick-drift-test/">Stick Drift</a>
-    <a class="tab-btn" href="/deadzone-visualizer/">Deadzone</a>
-    <a class="tab-btn" href="/controller-button-test/">Buttons</a>
-    <a class="tab-btn" href="/trigger-test/">Triggers</a>
-    <a class="tab-btn" href="/rumble-test/" aria-current="page">Rumble</a>
-  </nav>
+<!-- nav:start -->
+<nav class="toolbar" aria-label="Tools">
+  <details class="tb-menu">
+    <summary class="tb-trigger" aria-label="All 5 tests">
+      <span class="tb-glyph" aria-hidden="true">&#9636;</span>
+      <span class="tb-label">All 5<span class="tb-label-long"> tests</span></span>
+    </summary>
+    <div class="tb-sheet is-flat">
+      <ul>
+        <li><a href="/stick-drift-test/">Stick Drift Test</a></li>
+        <li><a href="/deadzone-visualizer/">Deadzone Visualizer</a></li>
+        <li><a href="/controller-button-test/">Controller Button Test</a></li>
+        <li><a href="/trigger-test/">Trigger Test</a></li>
+        <li><a href="/rumble-test/" aria-current="page">Rumble Test</a></li>
+      </ul>
+    </div>
+  </details>
+  <div class="tb-scrim"></div>
+  <ul class="tb-rail">
+    <li><a href="/stick-drift-test/">Stick Drift</a></li>
+    <li><a href="/deadzone-visualizer/">Deadzone</a></li>
+    <li><a href="/controller-button-test/">Buttons</a></li>
+    <li><a href="/trigger-test/">Triggers</a></li>
+    <li><a href="/rumble-test/" aria-current="page">Rumble</a></li>
+  </ul>
+</nav>
+<!-- nav:end -->
 
+<main id="main">
   <div class="hero">
     <h1>Controller Rumble Test</h1>
     <p>Fire a short vibration pulse at your gamepad and feel whether the motors still work. Everything runs in your browser — nothing is uploaded.</p>
