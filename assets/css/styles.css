@@ -458,6 +458,14 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
 }
 @media (min-width: 620px) { .sticks { grid-template-columns: 1fr 1fr; } }
 
+/* One stick, centred. Set by app.js when the connected pad reports a single
+   axis pair — a lone Joy-Con — so the row is not a card next to a hole where a
+   controller that does not exist used to be drawn. */
+/* Wide enough that the verdict pill — "DRIFT · offset 0.125 (x 0.110, y
+   -0.060)" — still fits on one line, which it would not at the width one of
+   two columns happens to be. */
+.sticks.is-solo { grid-template-columns: minmax(0, 420px); justify-content: center; }
+
 .stick-card {
   background: var(--bg-raised);
   border: 1px solid var(--border-soft);
@@ -575,6 +583,42 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
   color: var(--accent); border-color: var(--accent);
   background: color-mix(in srgb, var(--accent) 14%, transparent);
   font-weight: 700;
+}
+
+/* ---------- Joy-Con orientation toggle ---------- */
+/* Only /joy-con-drift-test/ ships this markup, and app.js reveals it only once
+   a single-stick pad is connected. Two states, so a segmented pair of pressed
+   buttons rather than a select: both options stay readable at 390px. */
+.orient {
+  display: flex; align-items: center; gap: 10px 12px; flex-wrap: wrap;
+  margin: 0 0 16px;
+}
+.orient-label {
+  color: var(--text-faint); font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.orient-opts {
+  display: inline-flex; gap: 6px;
+  padding: 4px; border-radius: 999px;
+  background: var(--bg-inset); border: 1px solid var(--border-soft);
+}
+.orient-btn {
+  min-height: 30px; padding: 0 14px;
+  font: inherit; font-size: 13px; line-height: 1;
+  color: var(--text-dim); background: none;
+  border: 1px solid transparent; border-radius: 999px;
+  cursor: pointer;
+  transition: color .12s ease, border-color .12s ease, background-color .12s ease;
+}
+.orient-btn:hover { color: var(--accent); }
+.orient-btn[aria-pressed="true"] {
+  color: var(--accent); font-weight: 700;
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.orient-note {
+  flex-basis: 100%; margin: 0;
+  font-size: 12.5px; color: var(--text-faint);
 }
 
 /* Shown only once a pad is connected *and* its vendor/product is recognised,
