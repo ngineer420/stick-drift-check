@@ -6,7 +6,13 @@
    /deadzone-visualizer/, /controller-button-test/, /trigger-test/,
    /rumble-test/) ships only the panels it needs, so every section below is
    optional: if its markup is absent the engine simply skips it. The theme
-   toggle and footer year live in theme.js, which every page loads. */
+   toggle and footer year live in theme.js, which every page loads.
+
+   Which stick pads get drawn is decided by the *device*, not the page: a pad
+   that reports two axes drives one stick card and the other is hidden, never
+   plotted and never given a verdict. A page can add Joy-Con handling on top of
+   that with `data-layout="single-joycon"` on <body>, which names the lone stick
+   from pad.id and offers the sideways/vertical orientation toggle. */
 (function () {
   "use strict";
 
@@ -58,23 +64,36 @@
   // Set on the console landing pages, so a page never offers itself.
   const pageConsole = consoleHint ? consoleHint.getAttribute("data-console") : null;
 
+  // Only /joy-con-drift-test/ sets this. It does not decide how many pads are
+  // drawn — axis count does that everywhere — it decides that the lone pad is
+  // named from pad.id and that the orientation toggle is offered.
+  const singleJoycon = document.body.getAttribute("data-layout") === "single-joycon";
+
+  const orientWrap = document.getElementById("orient");
+  const orientBtns = orientWrap
+    ? Array.prototype.slice.call(orientWrap.querySelectorAll("[data-orient]"))
+    : [];
+
+  const STICK_NAMES = ["left", "right"];
+  const sticksWrap = document.querySelector(".sticks");
   const sticks = {
     left: buildStickRefs("left"),
     right: buildStickRefs("right")
   };
-  const hasSticks = !!(sticks.left && sticks.right);
 
   function buildStickRefs(name) {
     const pad = document.querySelector('.stick-pad[data-stick="' + name + '"]');
     if (!pad) return null;
+    const card = pad.closest(".stick-card");
     return {
       pad,
       dot: pad.querySelector("[data-dot]"),
       dz: pad.querySelector("[data-dz]"),
-      card: pad.closest(".stick-card"),
-      x: pad.closest(".stick-card").querySelector("[data-x]"),
-      y: pad.closest(".stick-card").querySelector("[data-y]"),
-      result: pad.closest(".stick-card").querySelector("[data-result]")
+      card,
+      title: card.querySelector("h3 span"),
+      x: card.querySelector("[data-x]"),
+      y: card.querySelector("[data-y]"),
+      result: card.querySelector("[data-result]")
     };
   }
 
@@ -86,13 +105,20 @@
   let triggerRows = [];              // { fill, val, index }
   let axisRows = [];                 // <td> value cells
 
+  // Which stick cards the *connected pad* actually drives, and off which axis
+  // pair. Rebuilt only when the device signature changes, never per frame.
+  let stickPlan = [];
+  let stickNoun = "both sticks";     // calibration copy, singular when it is
+  let joySide = null;                // "L" | "R" | null, read from pad.id
+  let orientation = "vertical";      // "vertical" | "sideways"
+
   const drift = { left: null, right: null }; // { magnitude, x, y } or null
 
   const calib = {
     active: false,
     start: 0,
     samples: 0,
-    sum: { lx: 0, ly: 0, rx: 0, ry: 0 }
+    sum: { left: { x: 0, y: 0 }, right: { x: 0, y: 0 } }
   };
 
   /* ---------- gamepad access ---------- */
@@ -121,9 +147,22 @@
     return null;
   }
 
+  function hasAxis(pad, i) {
+    return typeof pad.axes[i] === "number";
+  }
+
+  // NaN, never 0, for an axis the pad does not have.
+  //
+  // Returning 0 here is the bug this file existed with: a single Joy-Con
+  // reports two axes, so axes[2] and axes[3] came back 0, the right stick was
+  // drawn resting at a flawless 0.000 / 0.000, and the drift check then handed
+  // it a PASS. A clean verdict on hardware that is not attached is worse than
+  // no verdict — it is the one answer the visitor came here to trust. Callers
+  // now ask hasAxis() first (see buildStickPlan) and simply do not draw or
+  // measure a stick the device never reported.
   function axisVal(pad, i) {
     const v = pad.axes[i];
-    return typeof v === "number" ? v : 0;
+    return typeof v === "number" ? v : NaN;
   }
 
   /* ---------- connection events ---------- */
@@ -196,12 +235,22 @@
       words: /dualshock|\bds4\b|\bps4\b/
     },
     {
+      // Ahead of the Pro Controller on purpose: both are vendor 057e, and the
+      // Pro entry claims that vendor with "*", so the specific product ids have
+      // to get their look-in first or every Joy-Con is announced as a Pro.
+      key: "joycon", name: "Joy-Con", article: "a", href: "/joy-con-drift-test/",
+      link: "Joy-Con drift test",
+      // 2006 Joy-Con (L), 2007 Joy-Con (R), 200e the charging grip pair.
+      ids: { "057e": ["2006", "2007", "200e"] },
+      words: /joy-?con/
+    },
+    {
       key: "switch", name: "Switch Pro Controller", article: "a", href: "/switch-pro-controller-test/",
       link: "Switch Pro controller test",
       // Nintendo ships almost nothing else a browser sees as a gamepad, so the
       // vendor alone is enough; "*" means any product under this vendor.
       ids: { "057e": ["*"] },
-      words: /pro controller|joy-?con|nintendo|switch/
+      words: /pro controller|nintendo|switch/
     },
     {
       key: "xbox", name: "Xbox controller", article: "an", href: "/xbox-controller-test/",
@@ -237,6 +286,26 @@
     return null;
   }
 
+  /* Which half of the pair this is. Chrome writes "Joy-Con (L) (STANDARD
+     GAMEPAD Vendor: 057e Product: 2006)", Firefox "057e-2006-Joy-Con (L)" and
+     Safari a bare "Joy-Con (L)", so the product id is tried first and the
+     "(L)"/"(R)" suffix is the fallback for engines that omit it. Null when the
+     pad is not a Joy-Con or the id will not say — the page then calls the stick
+     just "Stick" rather than guessing a side onto it. */
+  function joyconSide(pad) {
+    const id = pad && pad.id ? pad.id.toLowerCase() : "";
+    if (!id) return null;
+    const vp = vendorProduct(id);
+    if (vp && vp[0] === "057e") {
+      if (vp[1] === "2006") return "L";
+      if (vp[1] === "2007") return "R";
+    }
+    if (!/joy-?con/.test(id)) return null;
+    if (/\(l\)|\bleft\b/.test(id)) return "L";
+    if (/\(r\)|\bright\b/.test(id)) return "R";
+    return null;
+  }
+
   let hintKey = null; // last rendered console key, so the banner is built once
 
   function updateConsoleHint(pad) {
@@ -260,6 +329,91 @@
     consoleHint.hidden = false;
   }
 
+  /* ---------- which sticks this device actually has ----------
+     The signature already includes pad.axes.length, so this runs exactly when
+     the device changes and its result is read on every frame after that. */
+  function buildStickPlan(pad) {
+    const plan = [];
+    if (sticks.left && hasAxis(pad, 0) && hasAxis(pad, 1)) {
+      plan.push({ name: "left", refs: sticks.left, ax: 0, ay: 1 });
+    }
+    if (sticks.right && hasAxis(pad, 2) && hasAxis(pad, 3)) {
+      plan.push({ name: "right", refs: sticks.right, ax: 2, ay: 3 });
+    }
+    return plan;
+  }
+
+  function stickHeading(name, solo) {
+    if (!solo) return name === "left" ? "Left stick" : "Right stick";
+    if (joySide) return "Joy-Con (" + joySide + ") stick";
+    return "Stick";
+  }
+
+  function applyStickPlan(pad) {
+    stickPlan = buildStickPlan(pad);
+    joySide = joyconSide(pad);
+    const solo = stickPlan.length === 1;
+    stickNoun = solo ? "the stick" : "both sticks";
+
+    const live = { left: false, right: false };
+    for (let i = 0; i < stickPlan.length; i++) {
+      const e = stickPlan[i];
+      live[e.name] = true;
+      e.refs.card.hidden = false;
+      if (e.refs.title) e.refs.title.textContent = stickHeading(e.name, solo);
+    }
+    for (let i = 0; i < STICK_NAMES.length; i++) {
+      const n = STICK_NAMES[i];
+      if (sticks[n] && !live[n]) sticks[n].card.hidden = true;
+    }
+    if (sticksWrap) sticksWrap.classList.toggle("is-solo", solo);
+    // The toggle is meaningless on a two-stick pad, which is held one way.
+    if (orientWrap) orientWrap.hidden = !(singleJoycon && solo);
+  }
+
+  /* ---------- orientation ----------
+     A Joy-Con held as a mini controller sits a quarter turn away from the frame
+     its axes are reported in, and the two halves turn opposite ways to get
+     there: the (L) rotates anticlockwise into that grip and the (R) clockwise.
+     So "up" on the player's thumb arrives as +X on an (L) and -X on an (R), and
+     a tester that plots the raw pair draws every sideways push ninety degrees
+     out. Rotating is measurement-safe — |(x, y)| does not change under a
+     rotation, so PASS/DRIFT and the offset are identical either way; what moves
+     is the direction of the dot and the sign of the printed X and Y, which is
+     the whole point of the control. Unknown side is treated as an (L). */
+  const rotated = { x: 0, y: 0 };  // reused every frame; never allocate in render
+
+  function rotatePair(x, y) {
+    if (orientation !== "sideways") {
+      rotated.x = x; rotated.y = y;
+    } else if (joySide === "R") {
+      rotated.x = -y; rotated.y = x;
+    } else {
+      rotated.x = y; rotated.y = -x;
+    }
+    return rotated;
+  }
+
+  function setOrientation(next) {
+    orientation = next === "sideways" ? "sideways" : "vertical";
+    for (let i = 0; i < orientBtns.length; i++) {
+      const btn = orientBtns[i];
+      btn.setAttribute("aria-pressed",
+        btn.getAttribute("data-orient") === orientation ? "true" : "false");
+    }
+    // A measurement taken in the other orientation prints x/y for axes that are
+    // no longer the ones on screen, so it is retired rather than re-drawn — and
+    // a window flipped halfway through would average two different frames
+    // together, so that is thrown away too rather than finished.
+    if (calib.active || drift.left || drift.right) resetDriftResults();
+  }
+
+  for (let i = 0; i < orientBtns.length; i++) {
+    orientBtns[i].addEventListener("click", function () {
+      setOrientation(this.getAttribute("data-orient"));
+    });
+  }
+
   /* ---------- dynamic UI build ---------- */
   function signatureFor(pad) {
     return pad.index + "|" + pad.mapping + "|" + pad.buttons.length + "|" + pad.axes.length;
@@ -267,6 +421,9 @@
 
   function buildUI(pad) {
     const standard = pad.mapping === "standard";
+
+    // --- sticks: draw only the ones the device reports ---
+    applyStickPlan(pad);
 
     // --- buttons ---
     btnCells = [];
@@ -370,12 +527,13 @@
 
   /* ---------- deadzone ---------- */
   function applyDeadzoneRing() {
-    if (!hasSticks) return;
     const px = deadzone * PAD_MAX_OFFSET * 2;
-    sticks.left.dz.style.width = px + "px";
-    sticks.left.dz.style.height = px + "px";
-    sticks.right.dz.style.width = px + "px";
-    sticks.right.dz.style.height = px + "px";
+    for (let i = 0; i < STICK_NAMES.length; i++) {
+      const s = sticks[STICK_NAMES[i]];
+      if (!s) continue;
+      s.dz.style.width = px + "px";
+      s.dz.style.height = px + "px";
+    }
   }
   if (deadzoneInput) {
     deadzoneInput.addEventListener("input", () => {
@@ -393,14 +551,14 @@
       calib.active = true;
       calib.start = performance.now();
       calib.samples = 0;
-      calib.sum.lx = calib.sum.ly = calib.sum.rx = calib.sum.ry = 0;
+      calib.sum.left.x = calib.sum.left.y = 0;
+      calib.sum.right.x = calib.sum.right.y = 0;
       calibBtn.disabled = true;
       calibReset.hidden = true;
       calibProgress.hidden = false;
       calibProgressBar.style.width = "0%";
-      calibMsg.textContent = "Measuring resting position — keep both sticks fully released…";
-      setResult("left", "measuring");
-      setResult("right", "measuring");
+      calibMsg.textContent = "Measuring resting position — keep " + stickNoun + " fully released…";
+      for (let i = 0; i < stickPlan.length; i++) setResult(stickPlan[i].name, "measuring");
     });
   }
 
@@ -414,9 +572,14 @@
     calibReset.hidden = false;
     calibMsg.textContent = "Drift check complete. Re-run it any time, or nudge a stick to watch it live.";
 
+    // A stick that is not in the plan gets no result at all, rather than the
+    // average of a column of zeros that would read as a spotless PASS.
     const n = Math.max(1, calib.samples);
-    drift.left = magnitudeResult(calib.sum.lx / n, calib.sum.ly / n);
-    drift.right = magnitudeResult(calib.sum.rx / n, calib.sum.ry / n);
+    drift.left = drift.right = null;
+    for (let i = 0; i < stickPlan.length; i++) {
+      const name = stickPlan[i].name;
+      drift[name] = magnitudeResult(calib.sum[name].x / n, calib.sum[name].y / n);
+    }
     renderDriftResult("left");
     renderDriftResult("right");
   }
@@ -455,7 +618,7 @@
       calibBtn.textContent = "Start drift check";
     }
     if (calibReset) calibReset.hidden = true;
-    if (calibMsg) calibMsg.textContent = "Let go of both sticks completely, then start the check. We'll measure the resting position for a few seconds.";
+    if (calibMsg) calibMsg.textContent = "Let go of " + stickNoun + " completely, then start the check. We'll measure the resting position for a few seconds.";
     setResult("left", "idle");
     setResult("right", "idle");
   }
@@ -496,14 +659,24 @@
 
   function render(pad) {
     const standard = pad.mapping === "standard";
-    const lx = axisVal(pad, 0), ly = axisVal(pad, 1);
-    const rx = axisVal(pad, 2), ry = axisVal(pad, 3);
 
     // stick clicks in standard mapping
     const lPressed = standard && pad.buttons[10] ? pad.buttons[10].pressed : false;
     const rPressed = standard && pad.buttons[11] ? pad.buttons[11].pressed : false;
-    updateStick("left", lx, ly, lPressed);
-    updateStick("right", rx, ry, rPressed);
+
+    // One pass over the sticks the device reported: plot, and — in the same
+    // pass, off the same rotated pair — feed the calibration sum, so what is
+    // measured is always exactly what is drawn.
+    for (let i = 0; i < stickPlan.length; i++) {
+      const e = stickPlan[i];
+      const p = rotatePair(axisVal(pad, e.ax), axisVal(pad, e.ay));
+      updateStick(e.name, p.x, p.y, e.name === "left" ? lPressed : rPressed);
+      if (calib.active) {
+        const sum = calib.sum[e.name];
+        sum.x += p.x;
+        sum.y += p.y;
+      }
+    }
 
     // buttons
     for (let i = 0; i < btnCells.length; i++) {
@@ -528,13 +701,14 @@
 
     // axis table
     for (let a = 0; a < axisRows.length; a++) {
-      axisRows[a].textContent = axisVal(pad, a).toFixed(3);
+      const v = axisVal(pad, a);
+      // Raw, unrotated: this table is the axis indices as the browser reports
+      // them, which is what makes it useful for reading an odd mapping.
+      axisRows[a].textContent = v === v ? v.toFixed(3) : "—";
     }
 
-    // calibration sampling
+    // calibration window (the per-stick sums were taken in the loop above)
     if (calib.active) {
-      calib.sum.lx += lx; calib.sum.ly += ly;
-      calib.sum.rx += rx; calib.sum.ry += ry;
       calib.samples++;
       const elapsed = performance.now() - calib.start;
       calibProgressBar.style.width = Math.min(100, (elapsed / CALIB_MS) * 100) + "%";

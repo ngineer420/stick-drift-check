@@ -31,6 +31,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://stickdriftcheck.com/joy-con-drift-test/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://stickdriftcheck.com/deadzone-visualizer/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

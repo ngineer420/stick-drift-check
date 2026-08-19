@@ -14,7 +14,7 @@ Tier rule (portfolio spec, ngineer420.github.io#13): a page is tier 1 only if it
 answers a *different question*. Every tool in TOOLS does — a deadzone visualiser
 and a rumble pulse are not the same measurement with a parameter changed.
 
-The four console pages are the other side of that rule: /xbox-controller-test/
+The controller pages are the other side of that rule: /xbox-controller-test/
 and its siblings run the same drift + button + trigger engine with the hardware
 fixed, so they are the stick drift test with a parameter baked in and they are
 tier 2. They never appear in the rail or in the sheet body; they attach to their
@@ -53,10 +53,15 @@ GROUPS = [
 # twice with aria-current on both. The chips inside the tool are the route.
 HUBS = []
 
-# Tier-2: the four console landing pages. Same engine, hardware fixed, so they
+# Tier-2: the controller landing pages. Same engine, hardware fixed, so they
 # are deliberately absent from the rail and the sheet body. `bytes` is a
 # portfolio-wide field for the size-variant sites that first needed these chips;
 # there is no byte target here, and None renders the attribute empty.
+#
+# Order is by console family, and Joy-Con sits next to the Switch Pro rather
+# than at the end: the two are the pair a Nintendo owner has to choose between,
+# and they are the one pair on this list where picking the wrong chip gives you
+# a page about a different repair programme.
 VARIANTS = {
     "parent": "/stick-drift-test/",
     "label": "Test by controller",
@@ -66,6 +71,7 @@ VARIANTS = {
         {"href": "/ps5-controller-test/",         "label": "PS5",        "bytes": None},
         {"href": "/ps4-controller-test/",         "label": "PS4",        "bytes": None},
         {"href": "/switch-pro-controller-test/",  "label": "Switch Pro", "bytes": None},
+        {"href": "/joy-con-drift-test/",          "label": "Joy-Con",    "bytes": None},
     ],
 }
 

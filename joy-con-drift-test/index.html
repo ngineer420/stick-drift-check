@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joy-Con Drift Test — Check One Joy-Con for Stick Drift</title>
+<meta name="description" content="Free online Joy-Con drift test. Pair a single Joy-Con over Bluetooth and measure its stick's exact resting offset, with a sideways/vertical toggle so a rotated Joy-Con reads the right way up. One Joy-Con, one stick, one verdict.">
+<link rel="canonical" href="https://stickdriftcheck.com/joy-con-drift-test/">
+<meta name="theme-color" content="#100a18">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Joy-Con Drift Test — Check One Joy-Con for Stick Drift">
+<meta property="og:description" content="Test a single Joy-Con in your browser: the exact resting offset of its one stick, a sideways/vertical toggle for the mini-controller grip, and where Nintendo's free drift repair applies.">
+<meta property="og:url" content="https://stickdriftcheck.com/joy-con-drift-test/">
+<meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Joy-Con Drift Test — Check One Joy-Con for Stick Drift">
+<meta name="twitter:description" content="Test a single Joy-Con in your browser: the exact resting offset of its one stick, a sideways/vertical toggle for the mini-controller grip, and where Nintendo's free drift repair applies.">
+<meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Nintendo Joy-Con Drift Test",
+  "url": "https://stickdriftcheck.com/joy-con-drift-test/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "description": "Free browser-based Nintendo Joy-Con drift test: measures the resting position of a single Joy-Con's analog stick and reports PASS or DRIFT with the exact offset, with a sideways/vertical orientation toggle and live button readouts."
+}
+</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
+</head>
+<body data-layout="single-joycon">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+      <span class="brand-tag">controller drift test</span>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<!-- nav:start -->
+<nav class="toolbar" aria-label="Tools">
+  <details class="tb-menu">
+    <summary class="tb-trigger" aria-label="All 5 tests">
+      <span class="tb-glyph" aria-hidden="true">&#9636;</span>
+      <span class="tb-label">All 5<span class="tb-label-long"> tests</span></span>
+    </summary>
+    <div class="tb-sheet is-flat">
+      <ul>
+        <li><a href="/stick-drift-test/" aria-current="true">Stick Drift Test</a></li>
+        <li><a href="/deadzone-visualizer/">Deadzone Visualizer</a></li>
+        <li><a href="/controller-button-test/">Controller Button Test</a></li>
+        <li><a href="/trigger-test/">Trigger Test</a></li>
+        <li><a href="/rumble-test/">Rumble Test</a></li>
+      </ul>
+    </div>
+  </details>
+  <div class="tb-scrim"></div>
+  <ul class="tb-rail">
+    <li><a href="/stick-drift-test/" aria-current="true">Stick Drift</a></li>
+    <li><a href="/deadzone-visualizer/">Deadzone</a></li>
+    <li><a href="/controller-button-test/">Buttons</a></li>
+    <li><a href="/trigger-test/">Triggers</a></li>
+    <li><a href="/rumble-test/">Rumble</a></li>
+  </ul>
+</nav>
+<!-- nav:end -->
+
+<main id="main">
+  <div class="hero">
+    <h1>Joy-Con Drift Test</h1>
+    <p>Measure a single Joy-Con's stick for drift in your browser and get the exact resting offset the console's calibration screen never shows you. One Joy-Con has one stick, so this page checks one — and says so — instead of passing a second one that isn't there.</p>
+  </div>
+
+  <!-- sizechips:start -->
+  <nav class="size-chips" aria-label="Controller-specific drift tests">
+    <span class="size-chips-label" id="size-chips-label">Test by controller</span>
+    <ul aria-labelledby="size-chips-label">
+      <li><a href="/xbox-controller-test/" class="chip" data-target="">Xbox</a></li>
+      <li><a href="/ps5-controller-test/" class="chip" data-target="">PS5</a></li>
+      <li><a href="/ps4-controller-test/" class="chip" data-target="">PS4</a></li>
+      <li><a href="/switch-pro-controller-test/" class="chip" data-target="">Switch Pro</a></li>
+      <li><a href="/joy-con-drift-test/" class="chip" data-target="" aria-current="page">Joy-Con</a></li>
+    </ul>
+  </nav>
+  <!-- sizechips:end -->
+
+  <!-- Shown while no gamepad is detected -->
+  <section id="prompt" class="prompt">
+    <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
+    <h2>Connect your controller and press any button</h2>
+    <p>Plug it in over USB or pair it over Bluetooth, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
+  </section>
+
+  <!-- Shown once a gamepad is connected -->
+  <section id="tester" hidden>
+    <div class="device-bar">
+      <span class="dot" aria-hidden="true"></span>
+      <span>
+        <span class="device-name" id="device-name">Controller</span>
+        <span class="device-meta" id="device-meta"></span>
+      </span>
+      <label class="device-select" hidden id="device-select-wrap">
+        <span class="visually-hidden">Select controller</span>
+        <select id="device-select" aria-label="Select controller"></select>
+      </label>
+    </div>
+
+    <div class="console-hint" id="console-hint" data-console="joycon" hidden></div>
+
+    <div class="orient" id="orient" hidden>
+      <span class="orient-label" id="orient-label">Holding it</span>
+      <div class="orient-opts" role="group" aria-labelledby="orient-label">
+        <button type="button" class="orient-btn" data-orient="vertical" aria-pressed="true">Vertical</button>
+        <button type="button" class="orient-btn" data-orient="sideways" aria-pressed="false">Sideways</button>
+      </div>
+      <p class="orient-note">Sideways turns the plot a quarter turn to match the grip, so pushing the stick away from you reads as up. The measured offset is the same either way.</p>
+    </div>
+
+    <div class="calib">
+      <div class="calib-text">
+        <strong>Drift calibration</strong>
+        <p id="calib-msg">Let go of both sticks completely, then start the check. We'll measure the resting position for a few seconds.</p>
+      </div>
+      <div class="calib-actions">
+        <button type="button" id="calib-btn" class="primary">Start drift check</button>
+        <button type="button" id="calib-reset" hidden>Reset</button>
+      </div>
+      <div class="calib-progress" id="calib-progress" hidden><span></span></div>
+    </div>
+
+    <div class="sticks">
+      <div class="stick-card">
+        <h3><span>Left stick</span></h3>
+        <div class="stick-pad" data-stick="left">
+          <div class="stick-cross-h"></div>
+          <div class="stick-cross-v"></div>
+          <div class="stick-deadzone" data-dz></div>
+          <div class="stick-dot" data-dot></div>
+        </div>
+        <div class="stick-readout">
+          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
+          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
+        </div>
+        <div class="stick-result" data-result>Not yet checked</div>
+      </div>
+
+      <div class="stick-card">
+        <h3><span>Right stick</span></h3>
+        <div class="stick-pad" data-stick="right">
+          <div class="stick-cross-h"></div>
+          <div class="stick-cross-v"></div>
+          <div class="stick-deadzone" data-dz></div>
+          <div class="stick-dot" data-dot></div>
+        </div>
+        <div class="stick-readout">
+          <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
+          <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
+        </div>
+        <div class="stick-result" data-result>Not yet checked</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Buttons</h2>
+      <p class="panel-note">Labels read Xbox / PlayStation / Nintendo wherever the browser reports a standard mapping. A single Joy-Con usually does not, so its cells fall back to plain button numbers — press one and watch which number lights up.</p>
+      <div class="btn-grid" id="btn-grid"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Triggers</h2>
+      <div id="trigger-list"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Live axis readout</h2>
+      <table class="axis-table">
+        <thead><tr><th>Axis</th><th>Mapping</th><th style="text-align:right;">Value</th></tr></thead>
+        <tbody id="axis-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="container-narrow about-section" style="padding-left:0;padding-right:0;">
+    <h2>Joy-Con drift is the one drift with a free repair</h2>
+    <p>Every stick on this site wears out the same way, but only one of them has a manufacturer standing behind it. Nintendo has repaired Joy-Con drift free of charge since 2019 — in or out of warranty, no proof of purchase required in most regions — and refunded people who had already paid for the repair. That is worth knowing <em>before</em> you buy a replacement stick module or a new pair, because the repair costs you nothing but postage and the DIY route on a Joy-Con is the fiddliest one in the hobby: the stick module is tiny, the ribbon connectors are tinier, and opening the shell is what ends your claim.</p>
+    <p>The measurement is the part you need first. Release the stick, run the check, and read the offset. A healthy Joy-Con stick rests inside about <strong>0.020</strong>; this page flags anything past <strong>0.080</strong>. The Switch stores its own stick calibration on the console and applies it there and nowhere else, so a Joy-Con that feels acceptable in a game can read 0.060 here — this page never sees that correction, which is exactly what makes the number worth having when you open a repair request.</p>
+
+    <h2>One Joy-Con is one gamepad with one stick</h2>
+    <p>Each half pairs to a computer on its own and enumerates as its own controller reporting a single axis pair. That is the detail generic gamepad testers get wrong: they draw two stick pads regardless, feed the second one zeros, and report it as resting perfectly at centre — a clean bill of health for a stick that is not attached to anything. This page draws the pads the controller actually reported, names the one it found from the Joy-Con's own id, and gives exactly one verdict.</p>
+    <p>To pair one: hold the small round sync button on the rail edge — between SL and SR — until the four lights run back and forth, then add it from your computer's Bluetooth panel and press a button so the browser reveals it. Pair and test them one at a time. Joy-Con are notorious for dropping a Bluetooth link when a second one is being paired on the same adapter, and the two halves have separate stick modules and separate wear anyway, so there is no measurement you lose by doing them in sequence. If both are connected at once, the selector above the pads switches between them.</p>
+
+    <h2>Sideways changes what "up" means</h2>
+    <p>Held sideways as a mini controller, a Joy-Con is rotated a quarter turn away from the frame its axes are reported in — and the two halves turn opposite ways to get there, the left anticlockwise and the right clockwise. Plot the raw pair and every push lands ninety degrees off: you shove the stick away from you and the dot slides sideways. The <strong>Vertical / Sideways</strong> toggle above rotates the sampled pair before it is plotted, so up is up in whichever grip you actually play in. The offset itself does not change — a rotation cannot change how far from centre a stick rests — so the PASS or DRIFT verdict is identical either way. What changes is that the direction the dot leans, and the signs of the X and Y this page prints, describe the controller as you are holding it.</p>
+
+    <h2>Joy-Con 2: new stick, unproven on a browser</h2>
+    <p>The Switch 2 Joy-Con are a different controller. The stick is a ground-up redesign with a larger module and a smoother travel, and Nintendo has been explicit that it is <em>not</em> a Hall-effect sensor — so it is a better resistive stick, not a class of stick that cannot drift. Assume it wears, just more slowly, and re-test it the same way. What does not carry over is the repair path: the free out-of-warranty drift programme was announced for the original Joy-Con, and Nintendo has not extended it in writing to Joy-Con 2, which leaves the standard twelve-month limited warranty as what you can actually rely on today.</p>
+    <p>There is deliberately no separate Joy-Con 2 page here yet. They attach magnetically and pair over a path desktop browsers do not handle consistently, so a page promising a Joy-Con 2 test could easily be a page that never receives a device to test. If yours does show up in this tester, it is welcome to use it — the engine reads whatever the browser hands it — and a dedicated page follows once that is reliable rather than before.</p>
+
+    <p>If the stick in your hands is on the big black pad rather than a rail, you want the <a href="/switch-pro-controller-test/">Switch Pro controller test</a> instead — different stick, different repair story. To see whether an offset is small enough that a game would swallow it, try the <a href="/deadzone-visualizer/">deadzone visualizer</a>, and there is a full walkthrough in <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix controller stick drift</a>.</p>
+  </section>
+
+  <section class="container-narrow related-tools" style="padding-left:0;padding-right:0;">
+    <h2>Related tools</h2>
+    <ul class="related-list">
+      <li><a href="/stick-drift-test/">Stick drift test</a></li>
+      <li><a href="/switch-pro-controller-test/">Switch Pro controller test</a></li>
+      <li><a href="/deadzone-visualizer/">Deadzone visualizer</a></li>
+      <li><a href="/controller-button-test/">Controller button test</a></li>
+      <li><a href="/trigger-test/">Trigger test</a></li>
+      <li><a href="/rumble-test/">Rumble test</a></li>
+      <li><a href="/">All controller tools</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/app.js"></script>
+<a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
+</body>
+</html>
