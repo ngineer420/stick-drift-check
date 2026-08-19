@@ -11,6 +11,26 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://stickdriftcheck.com/xbox-controller-test/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://stickdriftcheck.com/ps5-controller-test/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://stickdriftcheck.com/ps4-controller-test/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://stickdriftcheck.com/switch-pro-controller-test/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://stickdriftcheck.com/deadzone-visualizer/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
