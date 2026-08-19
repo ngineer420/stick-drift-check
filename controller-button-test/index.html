@@ -107,6 +107,7 @@
 
     <div class="panel">
       <h2>Buttons</h2>
+      <p class="panel-note">Labels read Xbox / PlayStation / Nintendo, because the underlying layout is index-based rather than brand-based.</p>
       <div class="btn-grid" id="btn-grid"></div>
     </div>
   </section>
@@ -114,9 +115,9 @@
   <section class="container-narrow about-section" style="padding-left:0;padding-right:0;">
     <h2>How to test every button on your controller</h2>
     <p>The grid above is built from whatever your controller actually reports, so it grows or shrinks to match the pad in your hands. Work through it methodically: press each button once, confirm the matching cell lights up, and release. A cell that never lights means the button, its contact pad, or its ribbon connection is dead. A cell that lights and then <em>stays</em> lit after you let go means the button is physically sticking — the single most common fault after stick drift, and usually the result of a spilt drink rather than wear.</p>
-    <p>When your browser recognises the pad as <strong>standard mapping</strong>, each cell is labelled with both naming conventions — A/Cross, B/Circle, X/Square, Y/Triangle, LB/L1, RB/R1, L3 and R3 for the stick clicks — because the underlying <a href="https://w3c.github.io/gamepad/#remapping" rel="nofollow">W3C standard gamepad layout</a> is index-based, not brand-based. On a controller your browser doesn't recognise you'll see plain <code>Button 0</code>, <code>Button 1</code> and so on instead; the test still works, you just have to map the numbers yourself by pressing them.</p>
+    <p>When your browser recognises the pad as <strong>standard mapping</strong>, each cell carries all three naming conventions in the order <strong>Xbox / PlayStation / Nintendo</strong> — <code>A / Cross / B</code>, <code>B / Circle / A</code>, <code>X / Square / Y</code>, <code>Y / Triangle / X</code>, then <code>LB / L1 / L</code>, <code>RB / R1 / R</code> and <code>Back / Share / Minus</code> — because the underlying <a href="https://w3c.github.io/gamepad/#remapping" rel="nofollow">W3C standard gamepad layout</a> is index-based, not brand-based. The third name matters on a Nintendo pad: Nintendo's A and B are physically swapped relative to Xbox's, so pressing <strong>B</strong> on a Switch Pro Controller correctly lights the cell that starts with <code>A</code>. On a controller your browser doesn't recognise you'll see plain <code>Button 0</code>, <code>Button 1</code> and so on instead; the test still works, you just have to map the numbers yourself by pressing them.</p>
     <p>Buttons that report a fraction rather than a simple on/off show that fraction in the cell. That's normal for the analog triggers, which are buttons 6 and 7 in standard mapping — for a proper travel readout on those, use the trigger test instead.</p>
-    <p>Next: check the <a href="/trigger-test/">analog triggers</a>, or run the <a href="/stick-drift-test/">stick drift test</a>.</p>
+    <p>Next: check the <a href="/trigger-test/">analog triggers</a>, or run the <a href="/stick-drift-test/">stick drift test</a>. Testing a specific pad? There are per-controller pages for the <a href="/xbox-controller-test/">Xbox</a>, <a href="/ps5-controller-test/">PS5</a>, <a href="/ps4-controller-test/">PS4</a> and <a href="/switch-pro-controller-test/">Switch Pro</a> controllers.</p>
   </section>
 
   <section class="container-narrow related-tools" style="padding-left:0;padding-right:0;">

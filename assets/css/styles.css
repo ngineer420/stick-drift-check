@@ -541,14 +541,58 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
 }
 
 /* ---------- deadzone control ---------- */
+.panel-note { max-width: 78ch; margin: -4px 0 14px; color: var(--text-faint); font-size: 12.5px; }
+
 .deadzone-control { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .deadzone-control input[type="range"] { flex: 1 1 180px; accent-color: var(--accent); }
 .deadzone-control .dz-value { font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; min-width: 3.5ch; }
 
+/* ---------- console family: tier-2 chips + auto-detect banner ---------- */
+/* The four console landing pages are the stick drift test with the hardware
+   fixed, so they are a parameter of that tool and not peers of it: they live
+   in these chips rather than in the rail. Rendered by tools/sync_nav.py from
+   the VARIANTS block in tools/nav_data.py. */
+.size-chips {
+  display: flex; align-items: center; gap: 10px 12px; flex-wrap: wrap;
+  margin: 0 0 20px;
+}
+.size-chips-label {
+  color: var(--text-faint); font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.size-chips ul { display: flex; gap: 8px; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; }
+.size-chips a.chip {
+  display: inline-flex; align-items: center; min-height: 32px;
+  padding: 0 12px; font-size: 13px; text-decoration: none;
+  color: var(--text-dim);
+  background: var(--bg-inset);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  transition: border-color .12s ease, color .12s ease;
+}
+.size-chips a.chip:hover { color: var(--accent); border-color: var(--accent-dim); text-decoration: none; }
+.size-chips a.chip[aria-current] {
+  color: var(--accent); border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-weight: 700;
+}
+
+/* Shown only once a pad is connected *and* its vendor/product is recognised,
+   so it can never reserve or shift layout on first paint. */
+.console-hint {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin: 0 0 16px; padding: 10px 14px;
+  font-size: 13.5px; color: var(--text-dim);
+  background: color-mix(in srgb, var(--accent-2) 10%, var(--bg-raised));
+  border: 1px solid color-mix(in srgb, var(--accent-2) 45%, transparent);
+  border-radius: var(--radius);
+}
+.console-hint a { color: var(--accent-2); font-weight: 700; }
+
 /* ---------- buttons grid ---------- */
 .btn-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(172px, 1fr));
   gap: 8px;
 }
 .btn-cell {
@@ -556,11 +600,13 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
   background: var(--bg-inset);
   border: 1px solid var(--border-soft);
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 8px 11px;
   font-size: 13px;
   transition: background .06s ease, border-color .06s ease, color .06s ease;
 }
-.btn-cell .btn-name { color: var(--text-dim); }
+/* 12.5px, not the cell's 13px: the labels carry three names now and
+   "Start / Options / Plus" is the widest thing on the page. */
+.btn-cell .btn-name { color: var(--text-dim); font-size: 12.5px; }
 .btn-cell .btn-val { color: var(--text-faint); font-variant-numeric: tabular-nums; font-size: 12px; }
 .btn-cell.on {
   background: var(--accent);
@@ -572,7 +618,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
 /* ---------- triggers ---------- */
 .trigger-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
 .trigger-row:last-child { margin-bottom: 0; }
-.trigger-row .t-label { width: 4ch; color: var(--text-dim); font-size: 13px; flex: 0 0 auto; }
+.trigger-row .t-label { width: 13ch; color: var(--text-dim); font-size: 13px; flex: 0 0 auto; }
 .trigger-bar {
   flex: 1 1 auto; height: 14px;
   background: var(--bg-inset);

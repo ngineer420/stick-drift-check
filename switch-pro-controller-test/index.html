@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Controller Stick Drift Test — Check Both Analog Sticks Free</title>
-<meta name="description" content="Free online stick drift test. Release both thumbsticks, run a three-second calibration, and get a PASS or DRIFT verdict with the exact resting offset for each analog stick. Works with Xbox, PS5, Switch Pro, and generic gamepads.">
-<link rel="canonical" href="https://stickdriftcheck.com/stick-drift-test/">
+<title>Switch Pro Controller Test — Drift, Buttons and Triggers</title>
+<meta name="description" content="Free online Switch Pro Controller test. Measure stick drift with an exact resting offset the console calibration cannot hide, check every button with Nintendo labels, and watch ZL/ZR travel.">
+<link rel="canonical" href="https://stickdriftcheck.com/switch-pro-controller-test/">
 <meta name="theme-color" content="#100a18">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Controller Stick Drift Test — Check Both Analog Sticks Free">
-<meta property="og:description" content="Release both sticks, run the drift check, and get a PASS or DRIFT verdict with the exact resting offset. Runs entirely in your browser.">
-<meta property="og:url" content="https://stickdriftcheck.com/stick-drift-test/">
+<meta property="og:title" content="Switch Pro Controller Test — Drift, Buttons and Triggers">
+<meta property="og:description" content="Test a Switch Pro Controller in your browser: raw stick drift the console calibration cannot hide, live buttons with Nintendo labels, and ZL/ZR travel.">
+<meta property="og:url" content="https://stickdriftcheck.com/switch-pro-controller-test/">
 <meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Controller Stick Drift Test — Check Both Analog Sticks Free">
-<meta name="twitter:description" content="Release both sticks, run the drift check, and get a PASS or DRIFT verdict with the exact resting offset. Runs entirely in your browser.">
+<meta name="twitter:title" content="Switch Pro Controller Test — Drift, Buttons and Triggers">
+<meta name="twitter:description" content="Test a Switch Pro Controller in your browser: raw stick drift the console calibration cannot hide, live buttons with Nintendo labels, and ZL/ZR travel.">
 <meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
 
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -26,12 +26,12 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "Controller Stick Drift Test",
-  "url": "https://stickdriftcheck.com/stick-drift-test/",
+  "name": "Nintendo Switch Pro Controller Test",
+  "url": "https://stickdriftcheck.com/switch-pro-controller-test/",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "description": "Free browser-based stick drift test that measures each analog stick's resting position and reports PASS or DRIFT with the exact offset."
+  "description": "Free browser-based Nintendo Switch Pro Controller test: measures each analog stick's resting position and reports PASS or DRIFT with the exact offset, plus live button and analog trigger readouts."
 }
 </script>
 
@@ -61,7 +61,7 @@
     </summary>
     <div class="tb-sheet is-flat">
       <ul>
-        <li><a href="/stick-drift-test/" aria-current="page">Stick Drift Test</a></li>
+        <li><a href="/stick-drift-test/" aria-current="true">Stick Drift Test</a></li>
         <li><a href="/deadzone-visualizer/">Deadzone Visualizer</a></li>
         <li><a href="/controller-button-test/">Controller Button Test</a></li>
         <li><a href="/trigger-test/">Trigger Test</a></li>
@@ -71,7 +71,7 @@
   </details>
   <div class="tb-scrim"></div>
   <ul class="tb-rail">
-    <li><a href="/stick-drift-test/" aria-current="page">Stick Drift</a></li>
+    <li><a href="/stick-drift-test/" aria-current="true">Stick Drift</a></li>
     <li><a href="/deadzone-visualizer/">Deadzone</a></li>
     <li><a href="/controller-button-test/">Buttons</a></li>
     <li><a href="/trigger-test/">Triggers</a></li>
@@ -82,8 +82,8 @@
 
 <main id="main">
   <div class="hero">
-    <h1>Controller Stick Drift Test</h1>
-    <p>Let go of both thumbsticks, run the check, and see whether either stick wanders off centre on its own. Everything runs in your browser — nothing is uploaded.</p>
+    <h1>Switch Pro Controller Test</h1>
+    <p>Check a Switch Pro Controller for stick drift, dead buttons and worn ZL/ZR triggers — reading raw values the console's own calibration cannot hide. Everything runs in your browser.</p>
   </div>
 
   <!-- sizechips:start -->
@@ -93,7 +93,7 @@
       <li><a href="/xbox-controller-test/" class="chip" data-target="">Xbox</a></li>
       <li><a href="/ps5-controller-test/" class="chip" data-target="">PS5</a></li>
       <li><a href="/ps4-controller-test/" class="chip" data-target="">PS4</a></li>
-      <li><a href="/switch-pro-controller-test/" class="chip" data-target="">Switch Pro</a></li>
+      <li><a href="/switch-pro-controller-test/" class="chip" data-target="" aria-current="page">Switch Pro</a></li>
     </ul>
   </nav>
   <!-- sizechips:end -->
@@ -101,8 +101,8 @@
   <!-- Shown while no gamepad is detected -->
   <section id="prompt" class="prompt">
     <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
-    <h2>Connect a controller and press any button</h2>
-    <p>Plug in (or pair) an Xbox, PlayStation, Switch Pro, or generic USB/Bluetooth gamepad, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
+    <h2>Connect your controller and press any button</h2>
+    <p>Plug it in over USB or pair it over Bluetooth, then press any button so your browser can see it. Some browsers only reveal a controller after the first input.</p>
   </section>
 
   <!-- Shown once a gamepad is connected -->
@@ -119,7 +119,7 @@
       </label>
     </div>
 
-    <div class="console-hint" id="console-hint" hidden></div>
+    <div class="console-hint" id="console-hint" data-console="switch" hidden></div>
 
     <div class="calib">
       <div class="calib-text">
@@ -166,6 +166,17 @@
     </div>
 
     <div class="panel">
+      <h2>Buttons</h2>
+      <p class="panel-note">Labels read Xbox / PlayStation / Nintendo, because the underlying layout is index-based rather than brand-based.</p>
+      <div class="btn-grid" id="btn-grid"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Triggers</h2>
+      <div id="trigger-list"></div>
+    </div>
+
+    <div class="panel">
       <h2>Live axis readout</h2>
       <table class="axis-table">
         <thead><tr><th>Axis</th><th>Mapping</th><th style="text-align:right;">Value</th></tr></thead>
@@ -175,17 +186,18 @@
   </section>
 
   <section class="container-narrow about-section" style="padding-left:0;padding-right:0;">
-    <h2>How the stick drift test works</h2>
-    <p>Stick drift is an analog stick reporting movement while you aren't touching it. This test measures that directly: take your thumbs off both sticks, press <strong>Start drift check</strong>, and the page samples every animation frame for three seconds, averaging each stick's resting X and Y. If the averaged resting position sits further than <strong>0.08</strong> from dead centre, the stick is flagged <strong>DRIFT</strong>; inside that radius it passes. The exact offset is printed next to the verdict so you can compare a stick against itself over time, or against its partner on the same controller.</p>
-    <p>Averaging over three seconds matters, because a single frame can catch electrical noise that isn't real drift. A stick that reads 0.004 one frame and 0.002 the next is healthy. A stick that consistently rests at 0.15 on the X axis will pull your aim left or right in every game that doesn't apply a generous deadzone. The <strong>live axis readout</strong> underneath shows the raw values your browser receives for every axis the controller exposes, which is also the quickest way to spot a stick that only drifts once it warms up or after you flick it hard.</p>
-    <p>Nothing you do here is uploaded. The page uses the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API" rel="nofollow">Gamepad API</a> your browser already ships, all analysis happens locally, and no controller data leaves your device.</p>
-    <p>The thresholds and the method are the same whatever you plug in, but the failure modes are not, so there is a page per controller with the numbers a healthy example of that pad reports and what the manufacturer will do about a worn one: the <a href="/xbox-controller-test/">Xbox controller test</a>, the <a href="/ps5-controller-test/">PS5 controller test</a>, the <a href="/ps4-controller-test/">PS4 controller test</a> and the <a href="/switch-pro-controller-test/">Switch Pro controller test</a>.</p>
-    <p>Got a DRIFT verdict? Read <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix controller stick drift</a>, or check whether a <a href="/deadzone-visualizer/">larger deadzone</a> would hide it.</p>
+    <h2>Pro Controller drift is not Joy-Con drift</h2>
+    <p>Nintendo drift comes in two distinct flavours and it matters a great deal which one you have. Joy-Con drift is the famous one: the sliding contact inside that very small stick wears through its own graphite pad, and Nintendo has repaired it free of charge worldwide since 2019, with or without a warranty, and refunded customers who had already paid for the repair. The Switch Pro Controller is not part of that programme. Its stick is a full-size potentiometer module of the same class fitted to the Xbox One pad and the DualShock 4, and it fails the way those do — slowly, on the stick you use most, as a steady offset rather than a jitter.</p>
+    <p>Test the Pro Controller here before you trust how it feels on the console, because the Switch actively hides small drift from you. System Settings › Controllers and Sensors › Calibrate Control Sticks stores a correction offset on the console, and that offset applies on the console and nowhere else. This page reads the raw axis values over USB or Bluetooth and never sees it, which is exactly why a pad that feels fine docked can read 0.050 here. A healthy Pro Controller rests inside about <strong>0.020</strong> on both sticks; the check flags anything past <strong>0.080</strong>.</p>
+    <p>The face buttons are mirrored relative to an Xbox pad, and that trips up more Switch owners than the drift does. Nintendo's A sits where Xbox's B sits, and Nintendo's B where Xbox's A sits. The button grid above labels every cell Xbox&nbsp;/&nbsp;PlayStation&nbsp;/&nbsp;Nintendo for this exact reason: press <strong>B</strong> on your Pro Controller and the cell reading <code>A / Cross / B</code> is the one that lights up. Nothing is broken when it does. The shoulder triggers follow the same convention — ZL and ZR are the analog pair on the trigger bars.</p>
+    <p>Nintendo covers the Pro Controller under a twelve-month limited warranty and handles repairs through its own support site rather than the retailer. Outside that window, a paid repair or a replacement stick module are the options, and Hall-effect drop-ins for the Pro Controller board are now widely available. One limit worth stating plainly: the Pro Controller's gyroscope, HD rumble and NFC reader are not exposed to a browser at all, so this page can speak for the sticks, the buttons and the triggers, and nothing else.</p>
+    <p>See whether a game would ignore the offset with the <a href="/deadzone-visualizer/">deadzone visualizer</a>, or check the buttons in detail on the <a href="/controller-button-test/">controller button test</a>.</p>
   </section>
 
   <section class="container-narrow related-tools" style="padding-left:0;padding-right:0;">
     <h2>Related tools</h2>
     <ul class="related-list">
+      <li><a href="/stick-drift-test/">Stick drift test</a></li>
       <li><a href="/deadzone-visualizer/">Deadzone visualizer</a></li>
       <li><a href="/controller-button-test/">Controller button test</a></li>
       <li><a href="/trigger-test/">Trigger test</a></li>

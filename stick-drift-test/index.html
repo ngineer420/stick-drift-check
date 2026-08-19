@@ -86,6 +86,18 @@
     <p>Let go of both thumbsticks, run the check, and see whether either stick wanders off centre on its own. Everything runs in your browser — nothing is uploaded.</p>
   </div>
 
+  <!-- sizechips:start -->
+  <nav class="size-chips" aria-label="Controller-specific drift tests">
+    <span class="size-chips-label" id="size-chips-label">Test by controller</span>
+    <ul aria-labelledby="size-chips-label">
+      <li><a href="/xbox-controller-test/" class="chip" data-target="">Xbox</a></li>
+      <li><a href="/ps5-controller-test/" class="chip" data-target="">PS5</a></li>
+      <li><a href="/ps4-controller-test/" class="chip" data-target="">PS4</a></li>
+      <li><a href="/switch-pro-controller-test/" class="chip" data-target="">Switch Pro</a></li>
+    </ul>
+  </nav>
+  <!-- sizechips:end -->
+
   <!-- Shown while no gamepad is detected -->
   <section id="prompt" class="prompt">
     <div class="prompt-icon pulse" aria-hidden="true">🎮</div>
@@ -106,6 +118,8 @@
         <select id="device-select" aria-label="Select controller"></select>
       </label>
     </div>
+
+    <div class="console-hint" id="console-hint" hidden></div>
 
     <div class="calib">
       <div class="calib-text">
@@ -165,6 +179,7 @@
     <p>Stick drift is an analog stick reporting movement while you aren't touching it. This test measures that directly: take your thumbs off both sticks, press <strong>Start drift check</strong>, and the page samples every animation frame for three seconds, averaging each stick's resting X and Y. If the averaged resting position sits further than <strong>0.08</strong> from dead centre, the stick is flagged <strong>DRIFT</strong>; inside that radius it passes. The exact offset is printed next to the verdict so you can compare a stick against itself over time, or against its partner on the same controller.</p>
     <p>Averaging over three seconds matters, because a single frame can catch electrical noise that isn't real drift. A stick that reads 0.004 one frame and 0.002 the next is healthy. A stick that consistently rests at 0.15 on the X axis will pull your aim left or right in every game that doesn't apply a generous deadzone. The <strong>live axis readout</strong> underneath shows the raw values your browser receives for every axis the controller exposes, which is also the quickest way to spot a stick that only drifts once it warms up or after you flick it hard.</p>
     <p>Nothing you do here is uploaded. The page uses the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API" rel="nofollow">Gamepad API</a> your browser already ships, all analysis happens locally, and no controller data leaves your device.</p>
+    <p>The thresholds and the method are the same whatever you plug in, but the failure modes are not, so there is a page per controller with the numbers a healthy example of that pad reports and what the manufacturer will do about a worn one: the <a href="/xbox-controller-test/">Xbox controller test</a>, the <a href="/ps5-controller-test/">PS5 controller test</a>, the <a href="/ps4-controller-test/">PS4 controller test</a> and the <a href="/switch-pro-controller-test/">Switch Pro controller test</a>.</p>
     <p>Got a DRIFT verdict? Read <a href="/articles/how-to-fix-controller-stick-drift.html">how to fix controller stick drift</a>, or check whether a <a href="/deadzone-visualizer/">larger deadzone</a> would hide it.</p>
   </section>
 

@@ -15,11 +15,19 @@
   const DRIFT_THRESHOLD = 0.08;   // resting magnitude above this = drift
   const CALIB_MS = 3000;          // calibration sampling window
 
-  // Standard-mapping button labels (https://w3c.github.io/gamepad/#remapping)
+  // Standard-mapping button labels (https://w3c.github.io/gamepad/#remapping).
+  // Read Xbox / PlayStation / Nintendo, in that order — the page prints that
+  // legend above the grid. The third slot exists because Nintendo's A and B
+  // are physically swapped relative to Xbox's, so index 0 is the Xbox A, the
+  // PlayStation Cross *and* the Nintendo B: a Switch owner reading a two-name
+  // label sees the wrong letter light up and assumes the test is broken.
+  // Deliberately one list, not a per-console map keyed off pad.id: under
+  // non-standard mapping the index-to-button correspondence is unknown, and a
+  // console-specific label would then be confidently wrong rather than generic.
   const STD_BUTTONS = [
-    "A / Cross", "B / Circle", "X / Square", "Y / Triangle",
-    "LB / L1", "RB / R1", "LT / L2", "RT / R2",
-    "Back / Share", "Start / Options", "L3 (left click)", "R3 (right click)",
+    "A / Cross / B", "B / Circle / A", "X / Square / Y", "Y / Triangle / X",
+    "LB / L1 / L", "RB / R1 / R", "LT / L2 / ZL", "RT / R2 / ZR",
+    "Back / Share / Minus", "Start / Options / Plus", "L3 (left click)", "R3 (right click)",
     "D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right", "Guide / Home"
   ];
   const AXIS_LABELS = ["Left stick X", "Left stick Y", "Right stick X", "Right stick Y"];
@@ -46,6 +54,9 @@
   const axisBody = document.getElementById("axis-body");
   const rumbleBtn = document.getElementById("rumble-btn");
   const rumbleNote = document.getElementById("rumble-note");
+  const consoleHint = document.getElementById("console-hint");
+  // Set on the console landing pages, so a page never offers itself.
+  const pageConsole = consoleHint ? consoleHint.getAttribute("data-console") : null;
 
   const sticks = {
     left: buildStickRefs("left"),
@@ -157,6 +168,98 @@
              .trim() || "Gamepad";
   }
 
+  /* ---------- console detection ----------
+     pad.id is the only place a browser names the hardware, and every engine
+     spells it differently: Chrome writes "Name (STANDARD GAMEPAD Vendor: 054c
+     Product: 0ce6)", Firefox writes "054c-0ce6-Name", Safari writes a plain
+     product string with no IDs at all. So: read a vendor/product pair if one is
+     there, fall back to product words if it is not, and show nothing when
+     neither is conclusive — a wrong console banner is worse than no banner.
+
+     This is deliberately a second, separate reader from signatureFor() below.
+     That one is a UI cache key (index|mapping|buttons|axes) and never looks at
+     pad.id, which is exactly why it cannot be reused here. */
+  const CONSOLES = [
+    {
+      key: "ps5", name: "DualSense", article: "a", href: "/ps5-controller-test/",
+      link: "PS5 controller test",
+      // 0ce6 DualSense, 0df2 DualSense Edge, 0e5f Access controller.
+      ids: { "054c": ["0ce6", "0df2", "0e5f"] },
+      words: /dualsense|\bps5\b/
+    },
+    {
+      key: "ps4", name: "DualShock 4", article: "a", href: "/ps4-controller-test/",
+      link: "PS4 controller test",
+      // 05c4 DS4 v1, 09cc DS4 v2, 0ba0 USB wireless adaptor. 0268 (DualShock 3)
+      // is left out on purpose: there is no PS3 page to send it to.
+      ids: { "054c": ["05c4", "09cc", "0ba0"] },
+      words: /dualshock|\bds4\b|\bps4\b/
+    },
+    {
+      key: "switch", name: "Switch Pro Controller", article: "a", href: "/switch-pro-controller-test/",
+      link: "Switch Pro controller test",
+      // Nintendo ships almost nothing else a browser sees as a gamepad, so the
+      // vendor alone is enough; "*" means any product under this vendor.
+      ids: { "057e": ["*"] },
+      words: /pro controller|joy-?con|nintendo|switch/
+    },
+    {
+      key: "xbox", name: "Xbox controller", article: "an", href: "/xbox-controller-test/",
+      link: "Xbox controller test",
+      // Same reasoning: a Microsoft-vendor gamepad is an Xbox pad.
+      ids: { "045e": ["*"] },
+      words: /xbox|xinput/
+    }
+  ];
+
+  function vendorProduct(id) {
+    let m = /vendor:\s*([0-9a-f]{4})[^)]*?product:\s*([0-9a-f]{4})/i.exec(id);
+    if (!m) m = /^([0-9a-f]{4})-([0-9a-f]{4})-/i.exec(id); // Firefox
+    return m ? [m[1].toLowerCase(), m[2].toLowerCase()] : null;
+  }
+
+  function consoleFor(pad) {
+    const id = pad && pad.id ? pad.id : "";
+    if (!id) return null;
+    const vp = vendorProduct(id);
+    if (vp) {
+      for (let i = 0; i < CONSOLES.length; i++) {
+        const products = CONSOLES[i].ids[vp[0]];
+        if (products && (products[0] === "*" || products.indexOf(vp[1]) !== -1)) {
+          return CONSOLES[i];
+        }
+      }
+    }
+    const lower = id.toLowerCase();
+    for (let i = 0; i < CONSOLES.length; i++) {
+      if (CONSOLES[i].words.test(lower)) return CONSOLES[i];
+    }
+    return null;
+  }
+
+  let hintKey = null; // last rendered console key, so the banner is built once
+
+  function updateConsoleHint(pad) {
+    if (!consoleHint) return;
+    const c = pad ? consoleFor(pad) : null;
+    const key = c ? c.key : "";
+    if (key === hintKey) return;
+    hintKey = key;
+    consoleHint.textContent = "";
+    if (!c || c.key === pageConsole) {
+      consoleHint.hidden = true;
+      return;
+    }
+    const lead = document.createElement("span");
+    lead.textContent = "Looks like " + c.article + " " + c.name + " \u2014 ";
+    const a = document.createElement("a");
+    a.href = c.href;
+    a.textContent = "see the " + c.link;
+    consoleHint.appendChild(lead);
+    consoleHint.appendChild(a);
+    consoleHint.hidden = false;
+  }
+
   /* ---------- dynamic UI build ---------- */
   function signatureFor(pad) {
     return pad.index + "|" + pad.mapping + "|" + pad.buttons.length + "|" + pad.axes.length;
@@ -191,7 +294,7 @@
     if (triggerList) {
       triggerList.textContent = "";
       const triggerDefs = standard
-        ? [{ i: 6, label: "LT / L2" }, { i: 7, label: "RT / R2" }]
+        ? [{ i: 6, label: "LT / L2 / ZL" }, { i: 7, label: "RT / R2 / ZR" }]
         : [];
       // Fallback: if not standard but there are >= 8 buttons, still try 6/7 as triggers.
       if (!standard && pad.buttons.length > 7) {
@@ -456,6 +559,7 @@
             " · " + pad.buttons.length + " buttons · " + pad.axes.length + " axes";
         }
         buildUI(pad);
+        updateConsoleHint(pad);
         refreshDeviceList();
       }
       render(pad);
@@ -463,6 +567,7 @@
       if (promptEl.hidden === true) promptEl.hidden = false;
       if (testerEl.hidden === false) testerEl.hidden = true;
       uiSignature = "";
+      updateConsoleHint(null);
       if (calib.active) resetDriftResults();
     }
     requestAnimationFrame(loop);
