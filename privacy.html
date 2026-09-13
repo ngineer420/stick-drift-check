@@ -57,12 +57,31 @@
 <!-- nav:end -->
 <main id="main" class="container-narrow">
   <h1>Privacy Policy</h1>
-  <p>Last updated: July 2026</p>
+  <p>Last updated: September 2026</p>
 
   <p>stickdriftcheck.com ("we", "the site") provides a free browser-based controller stick drift test. This page explains what data is and isn't collected when you use the site.</p>
 
   <h2>How the test works</h2>
-  <p>The drift test runs entirely in your browser using JavaScript and the Gamepad API. Your controller's input — stick positions, button presses, trigger values — is read and analyzed locally on your device and is never transmitted to, or stored on, any server operated by this site. There is no account, no upload, and nothing about your controller or gameplay leaves your browser.</p>
+  <p>The drift test runs entirely in your browser using JavaScript and the Gamepad API. Your controller's input — stick positions, button presses, trigger values — is read and analyzed locally on your device. While you test, the site sends none of that input to any server. The one exception is a drift result you choose to save, which the next section describes.</p>
+
+  <h2 id="drift-history">Drift history</h2>
+  <p>On the stick drift test and the controller test pages, you can save a finished drift check to a history for one controller. The page sends nothing until you press <strong>Save this check</strong>. When you press it, the page sends these items to <a href="https://sch3ma.com">sch3ma.com</a>, which stores them for this site:</p>
+  <ul>
+    <li>The name you give the controller.</li>
+    <li>The model name your browser reports for the controller, for example "DualSense Wireless Controller (STANDARD GAMEPAD Vendor: 054c Product: 0ce6)".</li>
+    <li>The resting X and Y position and the offset of each stick from that check.</li>
+    <li>The deadzone and the drift threshold (0.08) that the check used.</li>
+  </ul>
+  <p>sch3ma adds the date and time that it receives each check. Your device's clock does not set that date.</p>
+  <p>The first save gives this browser an anonymous identity at sch3ma. sch3ma keeps the key to that identity in this browser's local storage and in a cookie on auth.sch3ma.com. Only that identity can read, change or delete your controllers and checks. Other visitors cannot see them. The site owner can read them through sch3ma's admin access.</p>
+  <p>If you ask for a sign-in link, for example with <strong>Keep this history on every device</strong>, you give an email address. sch3ma stores the address with your identity and sends the link to it. When you open that link on another device, the same history opens there.</p>
+  <p>To delete what you saved:</p>
+  <ul>
+    <li>Press <strong>Delete</strong> on a check to remove that check.</li>
+    <li>Press <strong>Delete this controller</strong> to remove the controller and every check saved for it.</li>
+    <li>Press <strong>Delete all my data</strong> to remove every controller and check, your identity, and your email address.</li>
+  </ul>
+  <p>sch3ma keeps a deleted controller or check for 30 days, so the site owner can restore it after a mistake. After 30 days, sch3ma destroys it. When you delete all your data, sch3ma destroys your email address at once.</p>
 
   <h2>Cookies and advertising</h2>
   <p>This site may display advertisements served by third-party ad networks, such as Google AdSense. These networks may use cookies or similar technologies to serve ads based on your prior visits to this or other websites. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to this site and/or other sites on the internet.</p>

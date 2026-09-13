@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PS4 Controller Test — DualShock 4 Drift, Buttons and Triggers</title>
-<meta name="description" content="Free online PS4 controller test. Measure DualShock 4 stick drift with an exact resting offset, check every button, and watch L2/R2 analog travel — works over USB or Bluetooth, nothing uploaded.">
+<meta name="description" content="Free online PS4 controller test. Measure DualShock 4 stick drift with an exact resting offset, check every button, and watch L2/R2 analog travel — works over USB or Bluetooth, no sign-up.">
 <link rel="canonical" href="https://stickdriftcheck.com/ps4-controller-test/">
 <meta name="theme-color" content="#100a18">
 
@@ -85,7 +85,7 @@
 <main id="main">
   <div class="hero">
     <h1>PS4 Controller Test</h1>
-    <p>Check a DualShock 4 for stick drift, dead buttons and worn triggers. Everything runs in your browser — nothing is uploaded.</p>
+    <p>Check a DualShock 4 for stick drift, dead buttons and worn triggers. Everything runs in your browser, and nothing leaves it unless you save a result.</p>
   </div>
 
   <!-- sizechips:start -->
@@ -168,6 +168,8 @@
       </div>
     </div>
 
+    <div class="panel history" id="drift-history" hidden></div>
+
     <div class="panel">
       <h2>Buttons</h2>
       <p class="panel-note">Labels read Xbox / PlayStation / Nintendo, because the underlying layout is index-based rather than brand-based.</p>
@@ -222,6 +224,7 @@
 </footer>
 
 <script src="/assets/js/app.js"></script>
+<script type="module" src="/assets/js/history.js"></script>
 <a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
 </body>
 </html>

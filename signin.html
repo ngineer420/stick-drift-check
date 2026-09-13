@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signing you in — stickdriftcheck.com</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://stickdriftcheck.com/signin.html">
+<meta name="theme-color" content="#100a18">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<script src="/assets/js/theme.js"></script>
+<style>
+  /* One message, centred, and nothing to click while the hop happens. */
+  .signin { min-height: 60vh; display: grid; place-items: center; text-align: center; }
+  .signin h1 { margin: 0 0 12px; font-size: 22px; }
+  .signin p { max-width: 34rem; margin: 0 auto; color: var(--text-dim); }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="stickdriftcheck.com home">
+      <span class="brand-mark"><span class="bracket">[</span>stick<span class="bracket">/</span>drift<span class="bracket">]</span></span>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark/light theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<!-- nav:start -->
+<nav class="toolbar" aria-label="Tools">
+  <details class="tb-menu">
+    <summary class="tb-trigger" aria-label="All 5 tests">
+      <span class="tb-glyph" aria-hidden="true">&#9636;</span>
+      <span class="tb-label">All 5<span class="tb-label-long"> tests</span></span>
+    </summary>
+    <div class="tb-sheet is-flat">
+      <ul>
+        <li><a href="/stick-drift-test/">Stick Drift Test</a></li>
+        <li><a href="/deadzone-visualizer/">Deadzone Visualizer</a></li>
+        <li><a href="/controller-button-test/">Controller Button Test</a></li>
+        <li><a href="/trigger-test/">Trigger Test</a></li>
+        <li><a href="/rumble-test/">Rumble Test</a></li>
+      </ul>
+    </div>
+  </details>
+  <div class="tb-scrim"></div>
+  <ul class="tb-rail">
+    <li><a href="/stick-drift-test/">Stick Drift</a></li>
+    <li><a href="/deadzone-visualizer/">Deadzone</a></li>
+    <li><a href="/controller-button-test/">Buttons</a></li>
+    <li><a href="/trigger-test/">Triggers</a></li>
+    <li><a href="/rumble-test/">Rumble</a></li>
+  </ul>
+</nav>
+<!-- nav:end -->
+
+<main id="main" class="signin">
+  <div>
+    <h1 id="head">Signing you in</h1>
+    <p id="note">One moment.</p>
+    <noscript><p>This page needs JavaScript to finish signing you in. Turn it on, then open the link again.</p></noscript>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>© <span id="year"></span> stickdriftcheck.com</div>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<!-- The sign-in mail links here rather than at auth.sch3ma.com, so the link a person sees
+     is stickdriftcheck.com. This page runs twice per sign-in:
+       #sch3ma_link=…   the token from the mail. The SDK hands it back to auth.sch3ma.com.
+       #sch3ma_code=…   auth.sch3ma.com sends the browser back with a one-time code. The
+                        SDK completes the sign-in, and the page returns the visitor to
+                        where they asked for the link.
+     Both ride the URL fragment, which a browser never sends to a server. -->
+<script type="module">
+  import { client } from "/assets/js/sch3ma.js";
+
+  const HOME = "/stick-drift-test/";
+
+  function say(head, text) {
+    document.getElementById("head").textContent = head;
+    const note = document.getElementById("note");
+    note.textContent = text + " ";
+    const back = document.createElement("a");
+    back.href = HOME;
+    back.textContent = "Go to the stick drift test";
+    note.append(back);
+  }
+
+  const db = await client();
+  if (!db) {
+    say("Sign-in is not available", "This site cannot sign you in right now.");
+  } else if (db.handleSignInLink()) {
+    // The browser is already on its way to auth.sch3ma.com, which sends it back here.
+  } else if (location.hash.includes("sch3ma_code=")) {
+    let session = null;
+    try {
+      session = await db.completeSignIn();
+    } catch {
+      say("That link did not work", "A link works once and expires. Ask for a new one from the drift history.");
+    }
+    if (session) {
+      // A history this browser saved before signing in joins the one on the email.
+      if (session.orphan && session.orphan.mergeable) {
+        try { await session.merge(session.orphan.identity); } catch { /* the sign-in itself stands */ }
+      }
+      location.replace(db.signInReturnPath() || HOME);
+    }
+  } else {
+    say("Nothing to sign in with", "This page finishes a sign-in link. Open the link from your email.");
+  }
+</script>
+<a href="https://erabb.it" class="erabbit-mark" aria-label="erabb.it"><img src="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐇</text></svg>" width="10" height="10" alt=""></a>
+</body>
+</html>
