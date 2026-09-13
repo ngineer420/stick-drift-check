@@ -5,8 +5,8 @@
    drift history a visitor keeps by pressing Save. Until the two values below are real, the
    history stays hidden and no page asks sch3ma for anything. */
 
-const PROJECT = "prj_PENDING";
-const KEY = "pk_live_PENDING"; // publishable: it ships in the page by design
+const PROJECT = "prj_01M2C235AFWM979H3STRNDJ8FB";
+const KEY = "pk_live_01M2C24DDG5HJKEQM0M2C06ESQ_ZpOTVOEtl6D3tLj6XfRntek7FeXP1INC"; // publishable: it ships in the page by design
 
 export function configured() {
   return !PROJECT.endsWith("_PENDING") && !KEY.endsWith("_PENDING");
