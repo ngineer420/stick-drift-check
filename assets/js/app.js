@@ -1,5 +1,5 @@
 /* stickdriftcheck.com — controller tester engine
-   100% client-side. Uses the Gamepad API. Nothing is uploaded.
+   100% client-side. Uses the Gamepad API, and this file sends nothing anywhere.
    Single requestAnimationFrame poll loop; no per-frame allocations that leak.
 
    One engine, five pages. Each tool page (/stick-drift-test/,
@@ -12,7 +12,11 @@
    that reports two axes drives one stick card and the other is hidden, never
    plotted and never given a verdict. A page can add Joy-Con handling on top of
    that with `data-layout="single-joycon"` on <body>, which names the lone stick
-   from pad.id and offers the sideways/vertical orientation toggle. */
+   from pad.id and offers the sideways/vertical orientation toggle.
+
+   A finished drift check goes out as an "sdc:drift" window event, and a null
+   detail says that no result is on screen. history.js listens on the drift
+   pages, and it sends a result to sch3ma only when the visitor presses Save. */
 (function () {
   "use strict";
 
@@ -559,6 +563,7 @@
       calibProgressBar.style.width = "0%";
       calibMsg.textContent = "Measuring resting position — keep " + stickNoun + " fully released…";
       for (let i = 0; i < stickPlan.length; i++) setResult(stickPlan[i].name, "measuring");
+      announceDrift(null);
     });
   }
 
@@ -582,6 +587,22 @@
     }
     renderDriftResult("left");
     renderDriftResult("right");
+    announceDrift(getActivePad());
+  }
+
+  // Tell history.js what it may offer to save. The detail is null whenever no
+  // finished result is on screen, so a result from before a reset, a re-run or
+  // an orientation flip can never be saved.
+  function announceDrift(pad) {
+    const detail = pad && (drift.left || drift.right) ? {
+      left: drift.left,
+      right: drift.right,
+      deadzone,
+      threshold: DRIFT_THRESHOLD,
+      pad: pad.id,
+      padName: shortName(pad.id)
+    } : null;
+    window.dispatchEvent(new CustomEvent("sdc:drift", { detail }));
   }
 
   function magnitudeResult(x, y) {
@@ -621,6 +642,7 @@
     if (calibMsg) calibMsg.textContent = "Let go of " + stickNoun + " completely, then start the check. We'll measure the resting position for a few seconds.";
     setResult("left", "idle");
     setResult("right", "idle");
+    announceDrift(null);
   }
 
   /* ---------- rumble ---------- */

@@ -801,3 +801,80 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
 
 .erabbit-mark { display: block; width: 10px; margin: 0 0 0 auto; line-height: 0; cursor: default; }
 .erabbit-mark img { display: block; width: 10px; height: 10px; }
+
+/* ---------- drift history ---------- */
+/* history.js fills #drift-history on the drift pages, and only once the sch3ma
+   project in assets/js/sch3ma.js is set. Until then the panel stays hidden and
+   reserves no space. One spacing system per box: a flex row spaces its
+   children with gap, and those children carry no margins. */
+.hist-save,
+.hist-signin {
+  display: flex; flex-wrap: wrap; align-items: flex-end;
+  gap: 10px 12px;
+}
+.hist-signin { flex: 1 1 100%; }
+.hist-field {
+  display: flex; flex-direction: column; gap: 6px;
+  flex: 1 1 240px; min-width: 0;
+  font-size: 12.5px; color: var(--text-dim);
+}
+.hist-field input,
+.hist-pick select {
+  min-width: 0; max-width: 100%;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  color: var(--text);
+}
+.hist-field input:focus-visible,
+.hist-pick select:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.hist-note { flex-basis: 100%; margin: 0; font-size: 12.5px; color: var(--text-faint); }
+.hist-status { margin: 14px 0 0; font-size: 13.5px; color: var(--text); }
+.hist-body { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-soft); }
+.hist-pick,
+.hist-pick label {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 8px 12px; min-width: 0; font-size: 13.5px;
+}
+.hist-pick-label {
+  color: var(--text-faint); font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.hist-lead { margin-top: 12px; }
+.hist-lead p { margin: 0 0 4px; font-size: 14px; color: var(--text); }
+.hist-lead p.hist-first { font-size: 13px; color: var(--text-dim); }
+.hist-list { list-style: none; margin: 12px 0 0; padding: 0; }
+.hist-row { padding: 8px 0; border-top: 1px solid var(--border-soft); }
+.hist-row-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  font-size: 12.5px; color: var(--text-dim);
+}
+.hist-sticks {
+  display: flex; flex-wrap: wrap; gap: 2px 20px;
+  list-style: none; margin: 2px 0 0; padding: 0;
+  font-size: 13px; font-variant-numeric: tabular-nums;
+}
+.hist-sticks .k { color: var(--text-faint); }
+.hist-sticks .v { color: var(--text); font-weight: 700; }
+.hist-sticks .verdict { font-size: 11px; font-weight: 700; letter-spacing: .05em; }
+.hist-sticks .verdict.pass { color: var(--ok); }
+.hist-sticks .verdict.drift { color: var(--bad); }
+.hist-sticks .d { color: var(--text-dim); }
+.hist-more { margin-top: 12px; }
+.hist-empty { margin: 0; font-size: 13px; color: var(--text-dim); }
+.hist-sync,
+.hist-manage {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+  margin-top: 14px; font-size: 13px; color: var(--text-dim);
+}
+/* A text-weight button for the quieter actions: sign out, cancel, delete. It has
+   no side padding, so its text lines up with the panel text beside it. */
+button.quiet {
+  padding: 4px 0;
+  background: none; border-color: transparent;
+  color: var(--text-dim);
+  text-decoration: underline; text-underline-offset: 2px;
+}
+button.quiet:hover { border-color: transparent; color: var(--accent); }
+button.quiet[data-armed="1"] { color: var(--bad); text-decoration: none; border-color: var(--bad); }
