@@ -108,3 +108,48 @@ test("the sign-in page stays out of search and out of the sitemap", () => {
   assert.match(read("signin.html"), /<meta name="robots" content="noindex, nofollow">/);
   assert.equal(read("sitemap.xml").includes("signin"), false);
 });
+
+/* ================ the privacy policy points at something real ================
+
+   The policy used to end with "Questions about this policy can be sent to the
+   site owner via the contact link in the footer." There was no contact link in
+   any footer, so the sentence was false from the day it was written.
+
+   The address is written with HTML numeric character references, so the source
+   bytes carry no plain address for a crawler to grep. A browser decodes them
+   while parsing, which is why these assertions decode them too. */
+
+const CONTACT = "hello@goodbotbad.bot";
+
+function decodeEntities(text) {
+  return text.replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
+}
+
+test("every footer carries a working contact link", () => {
+  for (const rel of pages) {
+    const footer = (read(rel).match(/<div class="footer-links">[\s\S]*?<\/div>/) || [])[0];
+    assert.ok(footer, `${rel} has no footer-links block`);
+    const decoded = decodeEntities(footer);
+    assert.ok(decoded.includes(`mailto:${CONTACT}`), `${rel}: no contact link in the footer`);
+    assert.match(decoded, />Contact</, `${rel}: the contact link is not labelled`);
+  }
+});
+
+test("the address is not sitting in the source as plain text", () => {
+  // Light obfuscation only. It stops a crawler that greps the HTML. It does not
+  // pretend to stop one that runs a browser, and it must never cost a real
+  // visitor the link.
+  for (const rel of pages) {
+    assert.ok(!read(rel).includes(CONTACT), `${rel}: plain address in the source`);
+  }
+});
+
+test("the privacy policy's contact claim is accurate", () => {
+  const html = read("privacy.html");
+  const section = (html.match(/<h2>Contact<\/h2>[\s\S]*?<\/p>/) || [""])[0];
+  const plain = decodeEntities(section.replace(/<[^>]+>/g, " "));
+  assert.ok(plain.includes(CONTACT), "the policy does not name the address");
+  assert.match(plain, /footer/i, "the policy does not mention the footer");
+  assert.doesNotMatch(html, /contact link in the footer\.\s*<\/p>/,
+    "the old sentence, which pointed at a link that did not exist, is back");
+});
