@@ -36,6 +36,32 @@
   "description": "Free browser-based PS5 DualSense test: measures each analog stick's resting position and reports PASS or DRIFT with the exact offset, plus live button and analog trigger readouts."
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://stickdriftcheck.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Stick Drift Test",
+      "item": "https://stickdriftcheck.com/stick-drift-test/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "PS5 Controller Test",
+      "item": "https://stickdriftcheck.com/ps5-controller-test/"
+    }
+  ]
+}
+</script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
 </head>
@@ -122,6 +148,8 @@
       </label>
     </div>
 
+    <p id="live-status" class="visually-hidden" role="status" aria-atomic="true"></p>
+
     <div class="console-hint" id="console-hint" data-console="ps5" hidden></div>
 
     <div class="calib">
@@ -145,7 +173,7 @@
           <div class="stick-deadzone" data-dz></div>
           <div class="stick-dot" data-dot></div>
         </div>
-        <div class="stick-readout">
+        <div class="stick-readout" aria-live="off">
           <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
           <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
         </div>
@@ -160,7 +188,7 @@
           <div class="stick-deadzone" data-dz></div>
           <div class="stick-dot" data-dot></div>
         </div>
-        <div class="stick-readout">
+        <div class="stick-readout" aria-live="off">
           <span><span class="k">X</span> <span class="v" data-x>0.000</span></span>
           <span><span class="k">Y</span> <span class="v" data-y>0.000</span></span>
         </div>
@@ -213,6 +241,15 @@
 </main>
 
 <footer class="site-footer">
+  <nav class="footer-peers" aria-label="Related tools on other sites">
+    <span class="footer-peers-label">Related tools</span>
+    <ul>
+      <li><a href="https://hardwarecheckup.com" rel="noopener">Hardware Checkup</a> <span class="peer-what">hardware diagnostics</span></li>
+      <li><a href="https://flicktrainer.com" rel="noopener">Flick Trainer</a> <span class="peer-what">aim training</span></li>
+      <li><a href="https://cpsboost.com" rel="noopener">CPS Boost</a> <span class="peer-what">click speed</span></li>
+      <li><a href="https://reflexzap.com" rel="noopener">Reflex Zap</a> <span class="peer-what">reaction time</span></li>
+    </ul>
+  </nav>
   <div class="footer-inner">
     <div>© <span id="year"></span> stickdriftcheck.com</div>
     <div class="footer-links">

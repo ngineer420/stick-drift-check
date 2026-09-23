@@ -73,6 +73,10 @@
   // named from pad.id and that the orientation toggle is offered.
   const singleJoycon = document.body.getAttribute("data-layout") === "single-joycon";
 
+  // The page's one live region. Every tool page ships exactly one, and the
+  // engine is its only writer.
+  const liveStatus = document.getElementById("live-status");
+
   const orientWrap = document.getElementById("orient");
   const orientBtns = orientWrap
     ? Array.prototype.slice.call(orientWrap.querySelectorAll("[data-orient]"))
@@ -101,6 +105,68 @@
     };
   }
 
+  /* ---------- text writes and announcements ----------
+
+     The poll loop runs at the display refresh rate. A live region wired
+     straight to it repeats the same sentence sixty times a second, which is
+     not information, it is a stuck horn. So every text write in this file
+     goes through setText or setHtml. Both keep the last string per element
+     and touch the DOM only when the new string differs, so an unchanged value
+     writes nothing at all and an assistive technology hears it once.
+
+     What the region carries is a verdict — "Left stick: drift, offset 0.153"
+     — never the raw per-frame coordinates. The coordinate readouts, the
+     trigger values and the axis table are marked aria-live="off" and are read
+     on demand instead. */
+  const lastWritten = new WeakMap();
+
+  function setText(el, text) {
+    if (!el) return false;
+    const prev = lastWritten.has(el) ? lastWritten.get(el) : el.textContent;
+    lastWritten.set(el, text);
+    if (prev === text) return false;
+    el.textContent = text;
+    return true;
+  }
+
+  function setHtml(el, html) {
+    if (!el) return false;
+    const prev = lastWritten.has(el) ? lastWritten.get(el) : el.innerHTML;
+    lastWritten.set(el, html);
+    if (prev === html) return false;
+    el.innerHTML = html;
+    return true;
+  }
+
+  // Write the live region. Named for what it does to a screen reader, because
+  // announceDrift() below publishes an event and means something else.
+  function speak(text) {
+    return setText(liveStatus, text);
+  }
+
+  // A one-shot the visitor asked for. The diff above is right for a polled
+  // reading, and wrong here: pressing "Test rumble" twice really is two
+  // events, so this clears the region first and repeats the sentence.
+  function speakAgain(text) {
+    if (!liveStatus) return;
+    liveStatus.textContent = "";
+    liveStatus.textContent = text;
+    lastWritten.set(liveStatus, text);
+  }
+
+  // Record a string as already announced, without writing it. Used when a pad
+  // arrives: the resting state is the state the visitor is already in, so it
+  // is the baseline, not news.
+  function seedLive(text) {
+    if (liveStatus) lastWritten.set(liveStatus, text);
+  }
+
+  // A numeric node that changes every frame must never be announced, even if
+  // a later edit nests it inside the live region.
+  function muteLive(el) {
+    if (el) el.setAttribute("aria-live", "off");
+  }
+
   /* ---------- state ---------- */
   let selectedIndex = null;          // user-pinned gamepad index, or null = auto
   let deadzone = deadzoneInput ? parseFloat(deadzoneInput.value) : 0.08;
@@ -115,6 +181,19 @@
   let stickNoun = "both sticks";     // calibration copy, singular when it is
   let joySide = null;                // "L" | "R" | null, read from pad.id
   let orientation = "vertical";      // "vertical" | "sideways"
+
+  // Which verdict this page's live region reports. One purpose per page, so
+  // two panels never fight over the same region. Order matters: a console
+  // page ships the button and the trigger panel as well as the drift check,
+  // and the drift verdict is what that page is for.
+  const LIVE_MODE = calibBtn ? "drift"
+    : deadzoneInput ? "deadzone"
+    : btnGrid ? "buttons"
+    : triggerList ? "triggers"
+    : rumbleBtn ? "rumble"
+    : null;
+
+  let liveSeeded = false;            // false until the first frame after a rebuild
 
   const drift = { left: null, right: null }; // { magnitude, x, y } or null
 
@@ -364,7 +443,7 @@
       const e = stickPlan[i];
       live[e.name] = true;
       e.refs.card.hidden = false;
-      if (e.refs.title) e.refs.title.textContent = stickHeading(e.name, solo);
+      setText(e.refs.title, stickHeading(e.name, solo));
     }
     for (let i = 0; i < STICK_NAMES.length; i++) {
       const n = STICK_NAMES[i];
@@ -443,10 +522,12 @@
         nameEl.textContent = label;
         const valEl = document.createElement("span");
         valEl.className = "btn-val";
+        // An analog trigger reports a new fraction every frame.
+        muteLive(valEl);
         cell.appendChild(nameEl);
         cell.appendChild(valEl);
         btnGrid.appendChild(cell);
-        btnCells.push({ cell, valEl });
+        btnCells.push({ cell, valEl, label });
       }
     }
 
@@ -480,11 +561,12 @@
           const val = document.createElement("span");
           val.className = "t-val";
           val.textContent = "0.00";
+          muteLive(val);
           row.appendChild(lab);
           row.appendChild(bar);
           row.appendChild(val);
           triggerList.appendChild(row);
-          triggerRows.push({ fill, val, index: def.i });
+          triggerRows.push({ fill, val, index: def.i, label: def.label });
         });
       }
     }
@@ -503,6 +585,7 @@
         const val = document.createElement("td");
         val.className = "num";
         val.textContent = "0.000";
+        muteLive(val);
         tr.appendChild(th);
         tr.appendChild(map);
         tr.appendChild(val);
@@ -517,6 +600,10 @@
     // deadzone rings + reset drift results for a fresh device
     applyDeadzoneRing();
     resetDriftResults();
+
+    // The next frame states the baseline instead of announcing it: a pad that
+    // has just arrived is resting, and "no buttons pressed" is not news.
+    liveSeeded = false;
   }
 
   function updateRumbleNote(pad) {
@@ -524,9 +611,9 @@
     const act = pad.vibrationActuator;
     const supported = act && (typeof act.playEffect === "function" || typeof act.pulse === "function");
     rumbleBtn.disabled = !supported;
-    rumbleNote.textContent = supported
+    setText(rumbleNote, supported
       ? "Sends a short vibration if your controller is currently connected."
-      : "Rumble is not supported by this controller/browser combination.";
+      : "Rumble is not supported by this controller/browser combination.");
   }
 
   /* ---------- deadzone ---------- */
@@ -542,11 +629,11 @@
   if (deadzoneInput) {
     deadzoneInput.addEventListener("input", () => {
       deadzone = parseFloat(deadzoneInput.value);
-      if (deadzoneValue) deadzoneValue.textContent = deadzone.toFixed(2);
+      setText(deadzoneValue, deadzone.toFixed(2));
       applyDeadzoneRing();
     });
   }
-  if (deadzoneValue) deadzoneValue.textContent = deadzone.toFixed(2);
+  setText(deadzoneValue, deadzone.toFixed(2));
 
   /* ---------- calibration / drift ---------- */
   if (calibBtn) {
@@ -561,9 +648,10 @@
       calibReset.hidden = true;
       calibProgress.hidden = false;
       calibProgressBar.style.width = "0%";
-      calibMsg.textContent = "Measuring resting position — keep " + stickNoun + " fully released…";
+      setText(calibMsg, "Measuring resting position — keep " + stickNoun + " fully released…");
       for (let i = 0; i < stickPlan.length; i++) setResult(stickPlan[i].name, "measuring");
       announceDrift(null);
+      speak("Measuring the resting position. Keep " + stickNoun + " fully released.");
     });
   }
 
@@ -573,9 +661,9 @@
     calib.active = false;
     calibProgress.hidden = true;
     calibBtn.disabled = false;
-    calibBtn.textContent = "Re-run check";
+    setText(calibBtn, "Re-run check");
     calibReset.hidden = false;
-    calibMsg.textContent = "Drift check complete. Re-run it any time, or nudge a stick to watch it live.";
+    setText(calibMsg, "Drift check complete. Re-run it any time, or nudge a stick to watch it live.");
 
     // A stick that is not in the plan gets no result at all, rather than the
     // average of a column of zeros that would read as a spotless PASS.
@@ -588,6 +676,7 @@
     renderDriftResult("left");
     renderDriftResult("right");
     announceDrift(getActivePad());
+    speak(driftVerdict());
   }
 
   // Tell history.js what it may offer to save. The detail is null whenever no
@@ -605,6 +694,25 @@
     window.dispatchEvent(new CustomEvent("sdc:drift", { detail }));
   }
 
+  // The spoken form of the two result cards: a verdict per measured stick and
+  // the offset that earned it. A stick the device never reported is left out
+  // rather than announced as a spotless pass.
+  function driftVerdict() {
+    const parts = [];
+    for (let i = 0; i < stickPlan.length; i++) {
+      const name = stickPlan[i].name;
+      const d = drift[name];
+      if (!d) continue;
+      parts.push(
+        stickHeading(name, stickPlan.length === 1) + ": " +
+        (d.magnitude > DRIFT_THRESHOLD ? "drift" : "no drift") +
+        ", offset " + d.magnitude.toFixed(3) + "."
+      );
+    }
+    if (!parts.length) return "Drift check complete, but no stick was measured.";
+    return "Drift check complete. " + parts.join(" ");
+  }
+
   function magnitudeResult(x, y) {
     return { x, y, magnitude: Math.hypot(x, y) };
   }
@@ -616,17 +724,16 @@
     if (!d) { setResult(name, "idle"); return; }
     const isDrift = d.magnitude > DRIFT_THRESHOLD;
     el.className = "stick-result " + (isDrift ? "drift" : "pass");
-    el.innerHTML = (isDrift ? "DRIFT" : "PASS") +
-      ' <span class="offset">· offset ' + d.magnitude.toFixed(3) +
-      " (x " + d.x.toFixed(3) + ", y " + d.y.toFixed(3) + ")</span>";
+    setHtml(el, (isDrift ? "DRIFT" : "PASS") +
+      ' <span class="offset" aria-live="off">· offset ' + d.magnitude.toFixed(3) +
+      " (x " + d.x.toFixed(3) + ", y " + d.y.toFixed(3) + ")</span>");
   }
 
   function setResult(name, mode) {
     const el = sticks[name] && sticks[name].result;
     if (!el) return;
     el.className = "stick-result";
-    if (mode === "measuring") el.textContent = "Measuring…";
-    else el.textContent = "Not yet checked";
+    setText(el, mode === "measuring" ? "Measuring…" : "Not yet checked");
   }
 
   function resetDriftResults() {
@@ -636,13 +743,14 @@
     if (calibProgress) calibProgress.hidden = true;
     if (calibBtn) {
       calibBtn.disabled = false;
-      calibBtn.textContent = "Start drift check";
+      setText(calibBtn, "Start drift check");
     }
     if (calibReset) calibReset.hidden = true;
-    if (calibMsg) calibMsg.textContent = "Let go of " + stickNoun + " completely, then start the check. We'll measure the resting position for a few seconds.";
+    setText(calibMsg, "Let go of " + stickNoun + " completely, then start the check. We'll measure the resting position for a few seconds.");
     setResult("left", "idle");
     setResult("right", "idle");
     announceDrift(null);
+    if (LIVE_MODE === "drift" && liveSeeded) speak("Drift check reset. Start the check when both sticks are released.");
   }
 
   /* ---------- rumble ---------- */
@@ -652,6 +760,7 @@
       if (!pad) return;
       const act = pad.vibrationActuator;
       if (!act) return;
+      speakAgain("Rumble pulse sent. Feel for both motors.");
       try {
         if (typeof act.playEffect === "function") {
           act.playEffect("dual-rumble", {
@@ -675,8 +784,8 @@
       "translate(" + (x * PAD_MAX_OFFSET) + "px," + (y * PAD_MAX_OFFSET) + "px)";
     if (pressed) s.dot.classList.add("pressed");
     else s.dot.classList.remove("pressed");
-    s.x.textContent = x.toFixed(3);
-    s.y.textContent = y.toFixed(3);
+    setText(s.x, x.toFixed(3));
+    setText(s.y, y.toFixed(3));
   }
 
   function render(pad) {
@@ -708,9 +817,9 @@
       const cell = btnCells[i].cell;
       if (on) cell.classList.add("on");
       else cell.classList.remove("on");
-      btnCells[i].valEl.textContent = b.value > 0 && b.value < 1
+      setText(btnCells[i].valEl, b.value > 0 && b.value < 1
         ? b.value.toFixed(2)
-        : (on ? "on" : "");
+        : (on ? "on" : ""));
     }
 
     // triggers
@@ -718,7 +827,7 @@
       const b = pad.buttons[triggerRows[t].index];
       const v = b ? b.value : 0;
       triggerRows[t].fill.style.width = (v * 100).toFixed(1) + "%";
-      triggerRows[t].val.textContent = v.toFixed(2);
+      setText(triggerRows[t].val, v.toFixed(2));
     }
 
     // axis table
@@ -726,7 +835,23 @@
       const v = axisVal(pad, a);
       // Raw, unrotated: this table is the axis indices as the browser reports
       // them, which is what makes it useful for reading an odd mapping.
-      axisRows[a].textContent = v === v ? v.toFixed(3) : "—";
+      setText(axisRows[a], v === v ? v.toFixed(3) : "—");
+    }
+
+    // The live region, last, so it reads the state this frame just drew.
+    // "drift" pages announce on the calibration events only; the rest carry a
+    // coarse state sentence that changes a handful of times per interaction,
+    // never once per frame.
+    if (LIVE_MODE && LIVE_MODE !== "drift" && LIVE_MODE !== "rumble") {
+      const state = liveStateFor(pad);
+      if (!liveSeeded) {
+        liveSeeded = true;
+        seedLive(state);
+      } else {
+        speak(state);
+      }
+    } else if (!liveSeeded) {
+      liveSeeded = true;
     }
 
     // calibration window (the per-stick sums were taken in the loop above)
@@ -736,6 +861,54 @@
       calibProgressBar.style.width = Math.min(100, (elapsed / CALIB_MS) * 100) + "%";
       if (elapsed >= CALIB_MS) finalizeCalibration();
     }
+  }
+
+  /* ---------- the page's spoken state ----------
+
+     Coarse on purpose. "Left stick outside the deadzone" flips when the stick
+     crosses the ring, which is the event worth hearing; "left stick at 0.134"
+     would change every frame and tell a listener nothing it can act on. */
+  function liveStateFor(pad) {
+    if (LIVE_MODE === "deadzone") {
+      const parts = ["Deadzone radius " + deadzone.toFixed(2) + "."];
+      const solo = stickPlan.length === 1;
+      for (let i = 0; i < stickPlan.length; i++) {
+        const e = stickPlan[i];
+        const q = rotatePair(axisVal(pad, e.ax), axisVal(pad, e.ay));
+        parts.push(
+          stickHeading(e.name, solo) + " " +
+          (Math.hypot(q.x, q.y) > deadzone ? "outside" : "inside") + " the deadzone."
+        );
+      }
+      return parts.join(" ");
+    }
+
+    if (LIVE_MODE === "buttons") {
+      const names = [];
+      for (let i = 0; i < btnCells.length; i++) {
+        const b = pad.buttons[i];
+        if (b && (b.pressed || b.value > 0.15)) names.push(btnCells[i].label);
+      }
+      return names.length ? "Pressed: " + names.join(", ") + "." : "No button pressed.";
+    }
+
+    if (LIVE_MODE === "triggers") {
+      if (!triggerRows.length) {
+        return "This controller exposes no analog trigger.";
+      }
+      const parts = [];
+      for (let t = 0; t < triggerRows.length; t++) {
+        const b = pad.buttons[triggerRows[t].index];
+        const v = b ? b.value : 0;
+        parts.push(
+          triggerRows[t].label + " " +
+          (v < 0.02 ? "released" : v > 0.98 ? "fully pressed" : "part pressed") + "."
+        );
+      }
+      return parts.join(" ");
+    }
+
+    return "";
   }
 
   /* ---------- main loop (single rAF) ---------- */
@@ -748,12 +921,10 @@
       const sig = signatureFor(pad);
       if (sig !== uiSignature) {
         uiSignature = sig;
-        if (deviceNameEl) deviceNameEl.textContent = shortName(pad.id);
-        if (deviceMetaEl) {
-          deviceMetaEl.textContent =
-            " · " + (pad.mapping === "standard" ? "standard mapping" : "non-standard mapping") +
-            " · " + pad.buttons.length + " buttons · " + pad.axes.length + " axes";
-        }
+        setText(deviceNameEl, shortName(pad.id));
+        setText(deviceMetaEl,
+          " · " + (pad.mapping === "standard" ? "standard mapping" : "non-standard mapping") +
+          " · " + pad.buttons.length + " buttons · " + pad.axes.length + " axes");
         buildUI(pad);
         updateConsoleHint(pad);
         refreshDeviceList();
@@ -765,6 +936,10 @@
       uiSignature = "";
       updateConsoleHint(null);
       if (calib.active) resetDriftResults();
+      if (liveSeeded) {
+        liveSeeded = false;
+        speak("No controller detected. Connect one and press any button.");
+      }
     }
     requestAnimationFrame(loop);
   }

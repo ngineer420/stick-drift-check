@@ -6,13 +6,67 @@
 <title>How to Test Your Controller for Drift — stickdriftcheck.com</title>
 <meta name="description" content="A reliable, step-by-step method to test any game controller for stick drift in your browser: how to calibrate, read the X/Y numbers, interpret PASS vs DRIFT, and avoid false positives.">
 <link rel="canonical" href="https://stickdriftcheck.com/articles/how-to-test-your-controller-for-drift.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="stickdriftcheck.com">
+<meta property="og:title" content="How to Test Your Controller for Drift">
+<meta property="og:description" content="A reliable, step-by-step method to test any game controller for stick drift in your browser: how to calibrate, read the X/Y numbers, interpret PASS vs DRIFT, and avoid false positives.">
+<meta property="og:url" content="https://stickdriftcheck.com/articles/how-to-test-your-controller-for-drift.html">
 <meta property="og:image" content="https://stickdriftcheck.com/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Test Your Controller for Drift">
+<meta name="twitter:description" content="A reliable, step-by-step method to test any game controller for stick drift in your browser: how to calibrate, read the X/Y numbers, interpret PASS vs DRIFT, and avoid false positives.">
+<meta name="twitter:image" content="https://stickdriftcheck.com/assets/og-image.png">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/styles.css">
 <script src="/assets/js/theme.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Test Your Controller for Drift",
+  "description": "A reliable, step-by-step method to test any game controller for stick drift in your browser: how to calibrate, read the X/Y numbers, interpret PASS vs DRIFT, and avoid false positives.",
+  "datePublished": "2026-07-16",
+  "dateModified": "2026-09-23",
+  "url": "https://stickdriftcheck.com/articles/how-to-test-your-controller-for-drift.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://stickdriftcheck.com/articles/how-to-test-your-controller-for-drift.html"
+  },
+  "image": "https://stickdriftcheck.com/assets/og-image.png",
+  "publisher": {
+    "@type": "Organization",
+    "name": "stickdriftcheck.com",
+    "url": "https://stickdriftcheck.com/"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "stickdriftcheck.com",
+    "url": "https://stickdriftcheck.com/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://stickdriftcheck.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "How to Test Your Controller for Drift",
+      "item": "https://stickdriftcheck.com/articles/how-to-test-your-controller-for-drift.html"
+    }
+  ]
+}
+</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -74,7 +128,7 @@
   <p>Each stick shows a live X and Y value and a dot inside a circle. Centered and healthy means both numbers hover within a few thousandths of 0.000 and the dot sits dead center. A drifting stick parks the dot off-center and holds a clearly nonzero value — say X at 0.14 while you're not touching anything. The <em>magnitude</em>, the straight-line distance from center, is the single number that matters most: it combines both axes into one figure you can compare against the drift threshold. A resting magnitude under roughly 0.05–0.08 is normal slop; consistently above that is drift.</p>
 
   <h2>Step 4: Test the full range and the buttons</h2>
-  <p>Drift is the headline, but while you're here, sweep each stick slowly around its full circle and watch the dot. It should reach the edge evenly in every direction and return smoothly to center — a stick that snags, flattens on one side, or can't reach full deflection has its own problems. Then run through the buttons, bumpers, stick clicks, and D-pad to confirm each registers, and pull the triggers to check they travel smoothly from 0.00 to 1.00. A controller can pass the drift test and still have a mushy trigger or a dead bumper, so a full pass is worth the extra minute.</p>
+  <p>Drift is the headline, but while you're here, sweep each stick slowly around its full circle and watch the dot. It should reach the edge evenly in every direction and return smoothly to center — a stick that snags, flattens on one side, or can't reach full deflection has its own problems. Then run through the buttons, bumpers, stick clicks, and D-pad to confirm each registers, and pull the triggers to check they travel smoothly from 0.00 to 1.00. A controller can pass the drift test and still have a mushy trigger or a dead bumper, so a full pass is worth the extra minute. The controller is only one part of the chain, so if the input still feels wrong afterwards, a broader device check at <a href="https://hardwarecheckup.com" rel="noopener">Hardware Checkup</a> rules out the keyboard, the mouse, and the display.</p>
 
   <h2>Avoiding false positives</h2>
   <p>The most common testing mistake is measuring while touching the stick — even light thumb pressure biases the resting position and can fake a drift reading. Always calibrate hands-off. The second mistake is confusing a deadzone with drift: if you've read that a stick "always shows 0.00" in a game, that's often the game's deadzone zeroing out small values, not proof the hardware is perfect. The browser test bypasses that, which is the point. Finally, a stick that reads nonzero for a moment right after you release it, then settles to center, is springs relaxing — not drift. Real drift is the value that stays. If you want the full picture of why games hide small offsets, read <a href="/articles/controller-deadzones-explained.html">controller deadzones explained</a>.</p>
@@ -94,6 +148,15 @@
   </ul>
 </main>
 <footer class="site-footer">
+  <nav class="footer-peers" aria-label="Related tools on other sites">
+    <span class="footer-peers-label">Related tools</span>
+    <ul>
+      <li><a href="https://hardwarecheckup.com" rel="noopener">Hardware Checkup</a> <span class="peer-what">hardware diagnostics</span></li>
+      <li><a href="https://flicktrainer.com" rel="noopener">Flick Trainer</a> <span class="peer-what">aim training</span></li>
+      <li><a href="https://cpsboost.com" rel="noopener">CPS Boost</a> <span class="peer-what">click speed</span></li>
+      <li><a href="https://reflexzap.com" rel="noopener">Reflex Zap</a> <span class="peer-what">reaction time</span></li>
+    </ul>
+  </nav>
   <div class="footer-inner">
     <div>© <span id="year"></span> stickdriftcheck.com</div>
     <div class="footer-links">

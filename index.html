@@ -36,6 +36,54 @@
   "description": "Free browser-based controller testing hub: stick drift, deadzone visualiser, buttons, analog triggers, and rumble."
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need to install anything to test my controller?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Every test on this site runs in your browser through the Gamepad API. Connect an Xbox, PlayStation, Nintendo Switch Pro, or generic USB or Bluetooth controller, then press any button. There is no driver, no download, and no account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my controller not show up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some browsers only reveal a controller after the first input. Plug in or pair the pad, then press any button so the browser can see it. If the page still shows the connect prompt, try a cable instead of Bluetooth."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as stick drift?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The stick drift test measures each analog stick's resting position over a three-second window. It reports DRIFT when a released stick rests further than 0.08 from dead centre. Inside that radius the stick passes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which browser works best for these tests?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Chrome and Edge implement the Gamepad API most completely, and they are the most reliable for the rumble test. Firefox and Safari read sticks, buttons, and triggers, but their haptics support is patchier."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this site upload my controller data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All detection and analysis happen locally on your device. No controller data leaves your browser unless you press Save this check on a drift result. The privacy policy lists exactly what a save stores."
+      }
+    }
+  ]
+}
+</script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7560786263587509" crossorigin="anonymous"></script>
 </head>
@@ -140,6 +188,30 @@
     <p>All detection and analysis happen locally on your device. No controller data leaves your browser unless you press <strong>Save this check</strong> on a drift result, and <a href="/privacy.html#drift-history">the privacy policy</a> lists what that stores.</p>
   </section>
 
+  <section class="container-narrow" id="faq">
+    <h2>Common questions</h2>
+    <div class="faq-item">
+      <h3>Do I need to install anything to test my controller?</h3>
+      <p>No. Every test on this site runs in your browser through the Gamepad API. Connect an Xbox, PlayStation, Nintendo Switch Pro, or generic USB or Bluetooth controller, then press any button. There is no driver, no download, and no account.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Why does my controller not show up?</h3>
+      <p>Some browsers only reveal a controller after the first input. Plug in or pair the pad, then press any button so the browser can see it. If the page still shows the connect prompt, try a cable instead of Bluetooth.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What counts as stick drift?</h3>
+      <p>The stick drift test measures each analog stick's resting position over a three-second window. It reports DRIFT when a released stick rests further than 0.08 from dead centre. Inside that radius the stick passes.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Which browser works best for these tests?</h3>
+      <p>Chrome and Edge implement the Gamepad API most completely, and they are the most reliable for the rumble test. Firefox and Safari read sticks, buttons, and triggers, but their haptics support is patchier.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Does this site upload my controller data?</h3>
+      <p>All detection and analysis happen locally on your device. No controller data leaves your browser unless you press Save this check on a drift result. The privacy policy lists exactly what a save stores.</p>
+    </div>
+  </section>
+
   <section class="container-narrow" id="articles" style="padding-top:0;">
     <h2 style="margin-top:0;">Learn more about stick drift</h2>
     <div class="faq-item">
@@ -162,6 +234,15 @@
 </main>
 
 <footer class="site-footer">
+  <nav class="footer-peers" aria-label="Related tools on other sites">
+    <span class="footer-peers-label">Related tools</span>
+    <ul>
+      <li><a href="https://hardwarecheckup.com" rel="noopener">Hardware Checkup</a> <span class="peer-what">hardware diagnostics</span></li>
+      <li><a href="https://flicktrainer.com" rel="noopener">Flick Trainer</a> <span class="peer-what">aim training</span></li>
+      <li><a href="https://cpsboost.com" rel="noopener">CPS Boost</a> <span class="peer-what">click speed</span></li>
+      <li><a href="https://reflexzap.com" rel="noopener">Reflex Zap</a> <span class="peer-what">reaction time</span></li>
+    </ul>
+  </nav>
   <div class="footer-inner">
     <div>© <span id="year"></span> stickdriftcheck.com</div>
     <div class="footer-links">
