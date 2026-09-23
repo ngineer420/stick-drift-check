@@ -785,6 +785,37 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 24px 20px 60px; }
 .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
 .footer-links a { color: var(--text-dim); }
 
+/* ---------- cross-property links ----------
+   A short row of sibling sites, above the copyright row and inside the same
+   footer rule, so it reads as part of the footer rather than a second one. */
+.footer-peers {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 22px 20px 0;
+  color: var(--text-faint);
+  font-size: 12.5px;
+}
+.footer-peers-label {
+  display: block;
+  margin: 0 0 10px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.footer-peers ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.footer-peers a { color: var(--text-dim); }
+.footer-peers a:hover { color: var(--accent); }
+.footer-peers .peer-what { color: var(--text-faint); }
+/* 404 has no footer of its own, so the block carries the footer's own rule. */
+body > .footer-peers { border-top: 1px solid var(--border-soft); margin-top: 40px; padding-bottom: 40px; }
+
 /* ---------- misc ---------- */
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
